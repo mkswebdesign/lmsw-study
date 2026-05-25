@@ -1,0 +1,8 @@
+﻿{
+  "name": "lmsw-study",
+  "version": "1.0.0",
+  "description": "LMSW Study App",
+  "scripts": {
+    "build": "xcopy /Y index.html dist\\index.html*"
+  }
+}
