@@ -267,7 +267,7 @@ function LMSWStudyTool() {
           { name: 'Genograms & Ecomaps', body: "Genogram: multigenerational family diagram (3+ generations) showing relationships, patterns, key events. Ecomap: visual map of the client's connections to systems (work, school, religion, supports, stressors). Use early in assessment to surface patterns." },
         ] },
         { heading: 'Diversity, Identity & Oppression', content: [
-          { name: 'Cultural Humility (preferred 2026 framing)', body: "Lifelong process of self-reflection and learning. Recognize power imbalances. Be a learner, not an expert on the client's culture. Contrast with cultural competence which implies mastery." },
+          { name: 'Cultural Humility', body: "Lifelong process of self-reflection and learning. Recognize power imbalances. Be a learner, not an expert on the client's culture. Contrast with cultural competence which implies mastery." },
           { name: 'Intersectionality (Crenshaw)', body: 'Multiple identities (race, gender, sexuality, class, disability, immigration status) intersect and create compounded experiences of privilege and oppression. Do not consider one identity in isolation.' },
           { name: 'Acculturation Models', body: "Berry's four strategies based on retention of heritage culture and adoption of host culture: Integration (both), Assimilation (host only), Separation (heritage only), Marginalization (neither). Integration is associated with best mental health outcomes." },
           { name: 'Racial Identity Development', body: 'Cross (Black identity): Pre-encounter → Encounter → Immersion-Emersion → Internalization → Internalization-Commitment. Helms (White identity): Contact → Disintegration → Reintegration → Pseudo-Independence → Immersion-Emersion → Autonomy.' },
@@ -584,7 +584,7 @@ function LMSWStudyTool() {
     { cat: 'Domain 4', front: 'Impaired social worker obligation', back: 'A worker whose practice is impaired (mental health, substance use, personal crisis) must seek help and not allow impairment to harm clients. Colleagues should address concerns directly first when possible.' },
     { cat: 'Domain 4', front: "Reamer's ethical decision-making framework", back: 'Systematic approach: identify the issue, identify stakeholders, identify ethical principles in conflict, weigh consequences, consult, decide and document. Other models: Dolgoff-Loewenberg-Harrington (ETHIC).' },
     { cat: 'Domain 4', front: 'Telehealth ethical considerations', back: 'Secure platforms, verify client location and identity, jurisdiction issues (where licensed to practice), emergency planning (local resources at client’s location), informed consent specific to telehealth.' },
-    { cat: 'Domain 4', front: 'Cultural humility vs competence', back: 'Competence: mastery of cultural knowledge (mid-20th century framing). Humility: lifelong self-reflection, recognizing power imbalances, learning from clients. 2026 framing favors humility — you cannot master another culture.' },
+    { cat: 'Domain 4', front: 'Cultural humility vs competence', back: 'Competence: mastery of cultural knowledge (mid-20th century framing). Humility: lifelong self-reflection, recognizing power imbalances, learning from clients. Current framing favors humility — you cannot master another culture.' },
     { cat: 'Domain 4', front: 'Bartering with clients', back: 'Generally discouraged. May be acceptable when culturally appropriate, non-exploitative, client-initiated, with written agreement. Risks: power imbalance, valuation disputes. Document carefully if used.' },
     // Domain 4 NEW
     { cat: 'Domain 4', front: 'Privileged communication', back: 'Legal protection (state statute) that prevents compelled disclosure of confidential client communications in court. Privilege belongs to the client; only the client (or legal representative) can waive it. Subject to limits (mandated reporting, Tarasoff, etc.).' },
@@ -1000,7 +1000,7 @@ function LMSWStudyTool() {
             <em className="italic font-normal" style={{ color: '#8B6F47' }}>Study Companion</em>
           </h1>
           <p className="font-body text-sm sm:text-base text-stone-700 mt-4 max-w-2xl">
-            Deep content across the four core ASWB Masters domains, with Kansas-specific regulatory context and the 2026 blueprint changes effective August 3, 2026.
+            Deep content across the four core ASWB Masters domains.
           </p>
           <div className="mt-3 flex flex-wrap gap-3 font-body text-xs text-stone-700">
             <span><strong className="text-stone-900">{flashcards.length}</strong> flashcards</span>
@@ -1032,9 +1032,9 @@ function LMSWStudyTool() {
               <div className="flex gap-3">
                 <Icon name="AlertCircle" size={20} className="flex-shrink-0 mt-1" style={{ color: '#8B6F47' }} />
                 <div>
-                  <h3 className="font-display font-bold text-lg text-stone-900">Two blueprint formats — know which applies to you</h3>
+                  <h3 className="font-display font-bold text-lg text-stone-900">Exam format — what to expect</h3>
                   <p className="font-body text-sm text-stone-700 mt-1 leading-relaxed">
-                    Through August 2, 2026: the four-domain 2018 blueprint, 170 questions (150 scored + 20 pretest). Starting August 3, 2026: three-domain 2026 blueprint, 122 questions (110 scored + 12 pretest), more 3-option items, emphasis on applied judgment. <strong>This guide is organized around the four classic domains</strong> because the underlying content is essentially the same — only the organization changes.
+                    The ASWB Masters exam uses the four-domain 2018 blueprint: 170 questions (150 scored + 20 pretest). <strong>This guide is organized around the four classic domains</strong> because the underlying content is essentially the same — only the organization changes.
                   </p>
                 </div>
               </div>
@@ -1064,7 +1064,7 @@ function LMSWStudyTool() {
                 ))}
               </div>
               <p className="font-body text-xs text-stone-600 mt-3 italic">
-                Approximate percentages from the 2018 blueprint. In the 2026 blueprint (effective August 3, 2026), Domains 1-3 are reorganized into three domains: Values & Ethics (highest weight), Assessment & Planning, and Intervention & Practice. The same content is tested; only the structure changes.
+                Approximate percentages from the ASWB Masters 2018 blueprint.
               </p>
             </section>
 
@@ -1077,7 +1077,7 @@ function LMSWStudyTool() {
                   <li><span className="font-display font-bold text-amber-200">3. Look for the social work answer.</span> Empathy, self-determination, strengths perspective, least restrictive intervention typically beat clinical/medical/punitive options.</li>
                   <li><span className="font-display font-bold text-amber-200">4. Beware extremes.</span> "Always," "never," "must," "only" usually signal a wrong answer.</li>
                   <li><span className="font-display font-bold text-amber-200">5. Stay in scope.</span> Pick the action an LMSW (not a psychiatrist, judge, or attorney) would take. Refer when appropriate; do not overreach.</li>
-                  <li><span className="font-display font-bold text-amber-200">6. Apply, do not recall.</span> 2026 especially emphasizes applied judgment. Ask "what would I actually do?" not "what does the textbook say?"</li>
+                  <li><span className="font-display font-bold text-amber-200">6. Apply, do not recall.</span> The exam emphasizes applied judgment. Ask "what would I actually do?" not "what does the textbook say?"</li>
                   <li><span className="font-display font-bold text-amber-200">7. Ethics is the highest weight.</span> When in doubt, the answer that aligns with the NASW Code (self-determination, confidentiality, dual-relationship avoidance, mandated reporting) is usually correct.</li>
                 </ol>
               </div>
@@ -1673,7 +1673,7 @@ function LMSWStudyTool() {
         <footer className="mt-12 pt-6 border-t border-stone-300">
           <p className="font-body text-xs text-stone-600 leading-relaxed">
             <Icon name="Sparkles" size={12} className="inline mr-1" />
-            Reflects the ASWB content effective in 2026, including the August 3, 2026 blueprint transition, NASW Code of Ethics, DSM-5-TR (2022), and Kansas BSRB requirements. Cross-reference with the official ASWB 2026 Examination Guidebook and current Kansas BSRB statutes. Practice questions are designed in ASWB style but are not actual exam items.
+            Reflects the ASWB Masters 2018 blueprint, NASW Code of Ethics, DSM-5-TR (2022), and Kansas BSRB requirements. Cross-reference with the official ASWB Examination Guidebook and current Kansas BSRB statutes. Practice questions are designed in ASWB style but are not actual exam items.
           </p>
           <div className="mt-3 flex items-center justify-center">
             <button onClick={() => setShowEasterEgg(true)} aria-label="A little surprise"
