@@ -1,0 +1,40 @@
+---
+interface Props {
+  title?: string;
+  body?: string;
+  label?: string;
+  href?: string;
+}
+
+const {
+  title = 'Bring the right kind of outside perspective into the room.',
+  body = 'Use the intake to share what feels unclear, where the decision pressure is showing up, and what kind of strategic support would be most useful.',
+  label = 'Book a free strategy call',
+  href = '/apply',
+} = Astro.props;
+---
+
+<section class="section dark final-cta" data-reveal="section">
+  <div class="container">
+    <h2 class="display h2 eyeless">{title}</h2>
+    <p>{body}</p>
+    <a class="button" href={href}>{label}</a>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    text-align: center;
+  }
+
+  h2 {
+    max-width: 870px;
+    margin: 0 auto;
+  }
+
+  p {
+    max-width: 620px;
+    margin: 26px auto 34px;
+    color: rgb(255 254 251 / 76%);
+  }
+</style>

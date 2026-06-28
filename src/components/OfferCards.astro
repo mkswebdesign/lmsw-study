@@ -1,0 +1,131 @@
+---
+import IconArrow from '@components/IconArrow.astro';
+import { offers } from '@data/site';
+---
+
+<div class="offer-list" data-stagger>
+  {offers.map((offer, index) => (
+    <a class={`offer card-link offer-${offer.slug}`} href={`/services/${offer.slug}`}>
+      <span class="offer-mark" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+      <p class="thin-label">{offer.name}</p>
+      <h3 class="display eyeless">{offer.transformation}</h3>
+      <p>{offer.short}</p>
+      <p class="offer-meta">{offer.investment} / {offer.timeline}</p>
+      <span class="arrow-link">Learn more <IconArrow /></span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .offer-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .offer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 430px;
+    border: 1px solid var(--color-line);
+    padding: 34px 32px;
+    background: var(--color-white);
+  }
+
+  .offer::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 8px;
+    background: var(--color-copper);
+    content: "";
+  }
+
+  .offer-outside-eye {
+    background:
+      linear-gradient(180deg, rgb(255 254 251 / 86%) 0%, rgb(246 246 241 / 94%) 100%),
+      var(--color-white);
+  }
+
+  .offer-thinking-partner {
+    background:
+      linear-gradient(135deg, rgb(255 254 251 / 82%) 0%, rgb(244 227 224 / 78%) 100%),
+      var(--color-white);
+  }
+
+  .offer-thinking-partner::before {
+    background: var(--color-burgundy);
+  }
+
+  .offer-strategic-reset {
+    border-color: rgb(17 32 51 / 84%);
+    background:
+      linear-gradient(145deg, rgb(34 50 77 / 98%) 0%, rgb(27 42 67 / 98%) 100%),
+      var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .offer-strategic-reset.card-link:hover,
+  .offer-strategic-reset.card-link:focus-visible {
+    border-color: rgb(17 32 51 / 94%);
+    background:
+      linear-gradient(145deg, rgb(28 42 65 / 100%) 0%, rgb(23 36 58 / 100%) 100%),
+      var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .offer-strategic-reset::before {
+    background: #d9b892;
+  }
+
+  .offer-strategic-reset .thin-label,
+  .offer-strategic-reset p:not(.thin-label) {
+    color: rgb(255 254 251 / 74%);
+  }
+
+  .offer-strategic-reset .arrow-link {
+    color: var(--color-white);
+  }
+
+  .offer-mark {
+    display: block;
+    margin-bottom: 54px;
+    color: var(--color-sage);
+    font-weight: 800;
+  }
+
+  .offer-strategic-reset .offer-mark {
+    color: #d9b892;
+  }
+
+  h3 {
+    font-size: clamp(1.55rem, 2vw, 2.15rem);
+    line-height: 1.08;
+  }
+
+  p:not(.thin-label) {
+    margin: 22px 0 28px;
+    color: var(--color-muted);
+  }
+
+  .offer-meta {
+    margin-top: auto;
+    color: var(--color-copper);
+    font-weight: 750;
+  }
+
+  .offer-strategic-reset .offer-meta {
+    color: #f4e3e0;
+  }
+
+  @media (max-width: 850px) {
+    .offer-list {
+      grid-template-columns: 1fr;
+    }
+
+    .offer {
+      min-height: auto;
+    }
+  }
+</style>

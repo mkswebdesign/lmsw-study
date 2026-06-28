@@ -1,0 +1,320 @@
+---
+import CTASection from '@components/CTASection.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const aboutBeliefs = [
+  {
+    title: 'Clarity is more valuable than content.',
+    body: 'One clear message will always outperform a lot of mediocre ones.',
+  },
+  {
+    title: 'You do not need to be everywhere.',
+    body: 'You just need to be consistent in the right places. Focus beats volume, every time.',
+  },
+  {
+    title: 'Strategy should be honest and custom.',
+    body: 'Generic frameworks do not fit real businesses. Yours is specific, so your plan should be too.',
+  },
+  {
+    title: 'Marketing should not feel like a performance.',
+    body: 'When your message is right, showing up feels like leadership, not theater.',
+  },
+  {
+    title: 'You do not have to figure it out alone.',
+    body: 'The best thinking almost always happens in conversation.',
+  },
+];
+
+const credentials = [
+  ['Founder', 'Mayes MarCom, a boutique marketing agency serving food brands, service providers, and training organizations.'],
+  ['Former role', 'VP of Marketing and Product Development, AIB International.'],
+  ['Former role', 'Director of Marketing Services, Kansas State University.'],
+  ['Teaching', 'Adjunct professor in PR and advertising writing.'],
+  ['Experience', '25+ years in brand strategy, messaging, and marketing leadership.'],
+  ['Sectors', 'Food safety, education, professional services, and consulting.'],
+];
+---
+
+<BaseLayout title="About Katie Mayes | Strategic Advisor">
+  <section class="about-hero">
+    <div class="container about-hero-grid">
+      <div class="about-hero-copy" data-stagger>
+        <h1 class="display h1 eyeless">Strategy-first. No guesswork. No hype.</h1>
+        <p class="lede">
+          For more than 25 years, Katie has helped business owners, consultants, and organizations figure out what to
+          say, how to say it, and what to do next. She is a writer and a strategist, which means the thinking and the
+          words matter in equal measure.
+        </p>
+        <div class="button-row">
+          <a class="button" href="/apply">Book a free strategy call</a>
+          <a class="button secondary" href="/method">Explore the method</a>
+        </div>
+      </div>
+      <div class="editorial-frame about-hero-image" data-reveal="media">
+        <img src="/assets/katie-mayes/katie-hero.jpg" alt="Katie Mayes in a navy blazer against a deep blue backdrop." loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section white about-feature" data-reveal="section">
+    <div class="container split">
+      <div class="editorial-frame about-media" data-reveal="media">
+        <img src="/assets/katie-mayes/about-office-v2.png" alt="A calm consulting office with strategy papers, books, framed art, and olive branches." loading="lazy" />
+      </div>
+      <div>
+        <h2 class="display h2 eyeless">Why Katie started coaching</h2>
+        <p class="lede">
+          Running Mayes MarCom, Katie kept meeting people who were not quite ready for agency support, but needed more
+          than a book or a course. They needed someone to look at their specific situation and say: here is what is off,
+          here is what is working, and here is exactly what to do next.
+        </p>
+        <p class="lede">
+          Not everyone needs a full marketing team. Some of the sharpest business owners and marketers are running lean,
+          staying hands-on, and doing the work themselves. What they need is a clear strategy and an honest outside
+          perspective - not more overhead.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section sage-wash" data-reveal="section">
+    <div class="container belief-layout">
+      <h2 class="display h2 eyeless">Beliefs that shape the work</h2>
+      <div class="belief-list" data-stagger>
+        {aboutBeliefs.map((belief, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h3 class="display eyeless">{belief.title}</h3>
+            <p>{belief.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section white working-style" data-reveal="section">
+    <div class="container working-grid">
+      <div>
+        <h2 class="display h2 eyeless">Working style</h2>
+        <p class="lede eyeless">
+          Clear, calm, and direct. Katie asks the questions other people skip over, gets to the heart of the issue
+          quickly, and gives you a plan that is grounded, specific, and doable.
+        </p>
+      </div>
+      <div class="surface-panel style-panel">
+        <p class="thin-label">What the work feels like</p>
+        <ul data-stagger>
+          <li>No ego.</li>
+          <li>No overcomplicated frameworks.</li>
+          <li>Honest, focused support to help you make better decisions.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section stone credentials-section" data-reveal="section">
+    <div class="container credentials-grid">
+      <div>
+        <h2 class="display h2 eyeless">Credentials</h2>
+        <p class="lede">
+          Katie brings agency, organizational, and teaching experience to the work, with a career rooted in brand
+          strategy, messaging, and marketing leadership.
+        </p>
+      </div>
+      <div class="credential-list" data-stagger>
+        {credentials.map(([label, body]) => (
+          <div class="credential-row">
+            <strong>{label}</strong>
+            <p>{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section white outside-work" data-reveal="section">
+    <div class="container outside-panel">
+      <p class="thin-label">Outside of work</p>
+      <p>
+        Katie is based in the Midwest, is a mom of two, and spends as much time outdoors as she can. She makes pottery,
+        enjoys a well-organized Google Doc more than most people think is reasonable, and still thinks of herself as a
+        writer first. It shapes how she approaches strategy: every decision should eventually produce better words.
+      </p>
+    </div>
+  </section>
+
+  <CTASection title="Want to know if we are a good fit?" body="Start with a quick, no-pressure conversation about what kind of support makes the most sense for where you are right now." />
+</BaseLayout>
+
+<style>
+  .about-hero {
+    border-bottom: 1px solid var(--color-line);
+    background:
+      linear-gradient(90deg, rgb(17 32 51 / 3%) 0 1px, transparent 1px 100%),
+      linear-gradient(180deg, var(--color-white) 0%, var(--color-paper) 100%);
+    background-size: 92px 100%, auto;
+    padding: clamp(62px, 8vw, 104px) 0;
+  }
+
+  .about-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+    gap: clamp(36px, 7vw, 86px);
+    align-items: center;
+  }
+
+  .about-hero-copy {
+    position: relative;
+  }
+
+  .about-hero-copy::after {
+    display: block;
+    width: 76px;
+    height: 1px;
+    margin-top: 32px;
+    background: var(--color-copper);
+    content: "";
+  }
+
+  .about-hero-copy .lede {
+    margin: 30px 0 0;
+  }
+
+  .about-feature .lede + .lede {
+    margin-top: 18px;
+  }
+
+  .about-hero-copy .button-row {
+    margin-top: 32px;
+  }
+
+  .about-hero-image {
+    aspect-ratio: 0.78 / 1;
+  }
+
+  .about-hero-image img {
+    object-position: center top;
+  }
+
+  .about-media {
+    aspect-ratio: 1.22 / 1;
+  }
+
+  .belief-layout,
+  .working-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.72fr) minmax(340px, 1fr);
+    gap: clamp(36px, 7vw, 86px);
+    align-items: start;
+  }
+
+  .belief-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .belief-list article {
+    margin: 0;
+    border: 1px solid var(--color-line);
+    background: rgb(255 254 251 / 66%);
+    padding: 24px;
+  }
+
+  .belief-list span {
+    display: block;
+    margin-bottom: 20px;
+    color: var(--color-copper);
+    font-weight: 800;
+  }
+
+  .belief-list h3 {
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 2.2vw, 2.2rem);
+    line-height: 1.2;
+  }
+
+  .belief-list p {
+    margin: 14px 0 0;
+    color: var(--color-muted);
+  }
+
+  .style-panel {
+    padding: clamp(28px, 4vw, 42px);
+  }
+
+  .style-panel ul {
+    display: grid;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .style-panel li {
+    border-top: 1px solid var(--color-line);
+    padding-top: 18px;
+    color: var(--color-muted);
+  }
+
+  .style-panel li:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .credentials-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.72fr) minmax(340px, 1fr);
+    gap: clamp(36px, 7vw, 86px);
+    align-items: start;
+  }
+
+  .credential-list {
+    display: grid;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .credential-row {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.28fr) minmax(0, 1fr);
+    gap: 24px;
+    border-bottom: 1px solid var(--color-line);
+    padding: 20px 0;
+  }
+
+  .credential-row strong {
+    color: var(--color-copper);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .credential-row p {
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  .outside-panel {
+    max-width: 840px;
+  }
+
+  .outside-panel > p:not(.thin-label) {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 2.2vw, 2.25rem);
+    line-height: 1.3;
+  }
+
+  @media (max-width: 850px) {
+    .about-hero-grid,
+    .belief-layout,
+    .working-grid,
+    .credentials-grid,
+    .credential-row {
+      grid-template-columns: 1fr;
+    }
+
+    .about-hero-image {
+      max-width: 420px;
+    }
+  }
+</style>

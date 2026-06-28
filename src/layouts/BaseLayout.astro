@@ -1,0 +1,191 @@
+---
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { site } from '@data/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.title, description = site.description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      (() => {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('motion-ready');
+        }
+      })();
+    </script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline>
+      (() => {
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (reducedMotion.matches) {
+          return;
+        }
+
+        const motionEasing = 'cubic-bezier(0.16, 1, 0.3, 1)';
+        const revealTargets = Array.from(document.querySelectorAll('[data-reveal], [data-stagger]'));
+
+        document.querySelectorAll('[data-stagger]').forEach((group) => {
+          Array.from(group.children).forEach((child, index) => {
+            child.style.setProperty('--stagger-index', String(Math.min(index, 12)));
+          });
+        });
+
+        const reveal = (element) => {
+          element.classList.add('is-visible');
+        };
+
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                  return;
+                }
+
+                reveal(entry.target);
+                observer.unobserve(entry.target);
+              });
+            },
+            {
+              rootMargin: '0px 0px -8% 0px',
+              threshold: 0.14,
+            },
+          );
+
+          revealTargets.forEach((element) => observer.observe(element));
+        } else {
+          revealTargets.forEach(reveal);
+        }
+
+        const detailAnimations = new WeakMap();
+
+        document.querySelectorAll('details[data-animate-details]').forEach((details) => {
+          const summary = details.querySelector('summary');
+
+          if (!summary) {
+            return;
+          }
+
+          summary.addEventListener('click', (event) => {
+            if (!details.animate) {
+              return;
+            }
+
+            event.preventDefault();
+
+            const currentAnimation = detailAnimations.get(details);
+            currentAnimation?.cancel();
+
+            details.style.overflow = 'hidden';
+
+            if (!details.open) {
+              const startHeight = summary.offsetHeight;
+
+              details.style.height = `${startHeight}px`;
+              details.open = true;
+
+              const endHeight = details.scrollHeight;
+              const animation = details.animate(
+                { height: [`${startHeight}px`, `${endHeight}px`] },
+                { duration: 220, easing: motionEasing },
+              );
+
+              details.style.height = `${endHeight}px`;
+
+              animation.onfinish = () => {
+                details.style.height = '';
+                details.style.overflow = '';
+                detailAnimations.delete(details);
+              };
+
+              detailAnimations.set(details, animation);
+              return;
+            }
+
+            const startHeight = details.offsetHeight;
+            const endHeight = summary.offsetHeight;
+            const animation = details.animate(
+              { height: [`${startHeight}px`, `${endHeight}px`] },
+              { duration: 190, easing: motionEasing },
+            );
+
+            details.style.height = `${endHeight}px`;
+
+            animation.onfinish = () => {
+              details.open = false;
+              details.style.height = '';
+              details.style.overflow = '';
+              detailAnimations.delete(details);
+            };
+
+            detailAnimations.set(details, animation);
+          });
+        });
+
+        window.addEventListener('pageshow', () => {
+          document.body.classList.remove('page-is-leaving');
+        });
+
+        document.addEventListener(
+          'click',
+          (event) => {
+            const target = event.target;
+            const link = target instanceof Element ? target.closest('a[href]') : null;
+
+            if (
+              !link ||
+              event.defaultPrevented ||
+              event.metaKey ||
+              event.ctrlKey ||
+              event.shiftKey ||
+              event.altKey ||
+              link.target && link.target !== '_self' ||
+              link.hasAttribute('download')
+            ) {
+              return;
+            }
+
+            const nextUrl = new URL(link.href, window.location.href);
+            const samePageHash =
+              nextUrl.origin === window.location.origin &&
+              nextUrl.pathname === window.location.pathname &&
+              nextUrl.search === window.location.search &&
+              nextUrl.hash;
+
+            if (nextUrl.origin !== window.location.origin || samePageHash) {
+              return;
+            }
+
+            event.preventDefault();
+            document.body.classList.add('page-is-leaving');
+            window.setTimeout(() => {
+              window.location.href = nextUrl.href;
+            }, 180);
+          },
+          true,
+        );
+      })();
+    </script>
+  </body>
+</html>

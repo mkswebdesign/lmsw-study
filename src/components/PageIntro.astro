@@ -1,0 +1,80 @@
+---
+import { ctas } from '@data/site';
+
+interface Props {
+  title: string;
+  lede: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  showActions?: boolean;
+}
+
+const {
+  title,
+  lede,
+  ctaLabel = ctas.primary.label,
+  ctaHref = ctas.primary.href,
+  secondaryLabel,
+  secondaryHref,
+  showActions = true,
+} = Astro.props;
+---
+
+<section class="page-intro">
+  <div class="container intro-grid" data-stagger>
+    <h1 class="display h1 eyeless">{title}</h1>
+    <div>
+      <p class="lede eyeless">{lede}</p>
+      {
+        showActions && (
+          <div class="button-row">
+            <a class="button" href={ctaHref}>{ctaLabel}</a>
+            {secondaryLabel && secondaryHref && <a class="button secondary" href={secondaryHref}>{secondaryLabel}</a>}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-intro {
+    border-bottom: 1px solid var(--color-line);
+    background:
+      linear-gradient(90deg, rgb(17 32 51 / 3%) 0 1px, transparent 1px 100%),
+      linear-gradient(180deg, var(--color-white) 0%, var(--color-paper) 100%);
+    background-size: 92px 100%, auto;
+    padding: 96px 0 84px;
+  }
+
+  .intro-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.8fr);
+    gap: clamp(36px, 6vw, 84px);
+    align-items: end;
+  }
+
+  .intro-grid::after {
+    position: absolute;
+    left: 0;
+    bottom: -34px;
+    width: 76px;
+    height: 1px;
+    background: var(--color-copper);
+    content: "";
+  }
+
+  .button-row {
+    margin-top: 32px;
+  }
+
+  @media (max-width: 850px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+</style>

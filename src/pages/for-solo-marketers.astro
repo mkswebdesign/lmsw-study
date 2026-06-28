@@ -1,0 +1,123 @@
+---
+import CTASection from '@components/CTASection.astro';
+import IconArrow from '@components/IconArrow.astro';
+import PageIntro from '@components/PageIntro.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { audiences, getAudienceOffers } from '@data/site';
+
+const audience = audiences[1];
+const recommendedOffers = getAudienceOffers(audience.recommendedOffers);
+---
+
+<BaseLayout title="For Solo Marketers | Katie Mayes">
+  <PageIntro
+    title="You're a marketing team of one. Inside a company that expects a team of ten."
+    lede="No outside perspective. No senior strategist to bounce ideas off. Just you - doing it all, and expected to do it brilliantly."
+    ctaLabel="See best-fit services"
+    ctaHref="#best-fit"
+    secondaryLabel="Book a free strategy call"
+    secondaryHref="/apply"
+  />
+
+  <section class="section sage-wash solo-feature" data-reveal="section">
+    <div class="container audience-feature-grid">
+      <div class="editorial-frame audience-image" data-reveal="media">
+        <img src={audience.image} alt={audience.imageAlt} loading="lazy" />
+      </div>
+      <div>
+        <h2 class="display h2 eyeless">This is for you if...</h2>
+        <ul class="big-list" data-stagger>{audience.pains.map((pain) => <li>{pain}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section white" data-reveal="section">
+    <div class="container">
+      <h2 class="display h2 eyeless title-center">What strategic clarity changes</h2>
+      <div class="grid-3" data-stagger>
+        {audience.clarityChanges.map((item) => (
+          <div class="panel">
+            <p>{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="best-fit" class="section white" data-reveal="section">
+    <div class="container">
+      <h2 class="display h2 eyeless title-center">Best-fit services</h2>
+      <p class="lede center-lede">
+        Offers adapted for the realities of working inside an organization, not running your own.
+      </p>
+      <div class="grid-2" data-stagger>
+        {recommendedOffers.map((offer) => offer && (
+          <a class="panel card-link" href={`/services/${offer.slug}`}>
+            <p class="thin-label">{offer.name}</p>
+            <h3 class="display eyeless">{offer.transformation}</h3>
+            <span class="arrow-link">View service <IconArrow /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="You do not need more noise. You need a better way to sort the signal." />
+</BaseLayout>
+
+<style>
+  .big-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .audience-feature-grid {
+    display: grid;
+    grid-template-columns: minmax(340px, 0.82fr) minmax(0, 1fr);
+    gap: clamp(34px, 6vw, 76px);
+    align-items: center;
+  }
+
+  .audience-image {
+    aspect-ratio: 1.18 / 1;
+  }
+
+  .big-list li {
+    border-top: 1px solid var(--color-line);
+    padding: 24px 0;
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 2.2vw, 2.15rem);
+    line-height: 1.2;
+  }
+
+  .big-list li:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .title-center {
+    margin-bottom: 34px;
+    text-align: center;
+  }
+
+  .center-lede {
+    margin: -18px auto 34px;
+    text-align: center;
+  }
+
+  .panel p {
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  h3 {
+    margin-bottom: 28px;
+    font-size: clamp(1.5rem, 2vw, 2.1rem);
+  }
+
+  @media (max-width: 850px) {
+    .audience-feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

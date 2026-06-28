@@ -1,0 +1,172 @@
+---
+import CTASection from '@components/CTASection.astro';
+import OfferCards from '@components/OfferCards.astro';
+import OfferComparison from '@components/OfferComparison.astro';
+import PageIntro from '@components/PageIntro.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const serviceQuestions = [
+  {
+    label: 'Choosing a fit',
+    question: 'How do I choose between the three offers?',
+    answer:
+      'Choose The Outside Eye for a focused diagnostic question, The Thinking Partner for ongoing advisory support, and The Strategic Reset when the message, priorities, or direction need a more complete realignment.',
+  },
+  {
+    label: 'Working model',
+    question: 'Is this an agency service?',
+    answer:
+      'No. The positioning is strategic advisory and messaging clarity. The work is designed to improve decisions and direction rather than replace a full execution team.',
+  },
+  {
+    label: 'Existing work',
+    question: 'Can this support existing marketing work?',
+    answer:
+      'Yes. The advisory model is especially useful when you already have execution in motion and need a clearer strategic read before investing more time or budget.',
+  },
+];
+---
+
+<BaseLayout title="Services | Katie Mayes">
+  <PageIntro
+    title="Choose the right level of outside perspective."
+    lede="The offer structure is intentionally simple: a focused diagnostic session, an ongoing advisory relationship, or a deeper reset when the current direction needs to be rebuilt."
+    ctaLabel="Compare offers"
+    ctaHref="#comparison"
+    secondaryLabel="Apply"
+    secondaryHref="/apply"
+  />
+
+  <section class="section white services-offers" data-reveal="section">
+    <div class="container">
+      <div class="services-lead">
+        <div>
+          <h2 class="display h2 eyeless">Three ways to bring sharper perspective into the work.</h2>
+          <p class="lede">
+            Each offer meets a different level of decision pressure: a focused read, a steady advisory rhythm, or a more
+            complete strategic reset.
+          </p>
+        </div>
+        <div class="editorial-frame services-image" data-reveal="media">
+          <img src="/assets/katie-mayes/process-cards-v2.png" alt="Connected strategy cards arranged as a practical planning framework." loading="lazy" />
+        </div>
+      </div>
+      <OfferCards />
+    </div>
+  </section>
+
+  <section id="comparison" class="section" data-reveal="section">
+    <div class="container">
+      <h2 class="display h2 eyeless comparison-title">Service comparison</h2>
+      <OfferComparison />
+    </div>
+  </section>
+
+  <section class="section sage-wash" data-reveal="section">
+    <div class="container split">
+      <h2 class="display h2 eyeless">A quick decision filter</h2>
+      <div class="rule-list" data-stagger>
+        <div class="rule-row">
+          <strong>Need a sharper read?</strong>
+          <p class="muted eyeless">Start with The Outside Eye.</p>
+        </div>
+        <div class="rule-row">
+          <strong>Need ongoing strategic support?</strong>
+          <p class="muted eyeless">Look at The Thinking Partner.</p>
+        </div>
+        <div class="rule-row">
+          <strong>Need to reset the whole direction?</strong>
+          <p class="muted eyeless">Consider The Strategic Reset.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section service-questions" data-reveal="section">
+    <div class="container">
+      <h2 class="display h2 eyeless faq-title">Common service questions</h2>
+      <div class="question-card-grid" data-stagger>
+        {serviceQuestions.map((item) => (
+          <article class="question-card">
+            <p class="thin-label">{item.label}</p>
+            <h3 class="display eyeless">{item.question}</h3>
+            <p>{item.answer}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Not sure which offer fits? Start with the question that feels most unclear." />
+</BaseLayout>
+
+<style>
+  .comparison-title,
+  .faq-title {
+    margin-bottom: 34px;
+    text-align: center;
+  }
+
+  .services-lead {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(320px, 0.74fr);
+    gap: clamp(32px, 6vw, 70px);
+    align-items: center;
+    margin-bottom: 44px;
+  }
+
+  .services-lead .lede {
+    margin-top: 24px;
+  }
+
+  .services-image {
+    aspect-ratio: 1.56 / 1;
+  }
+
+  .rule-row {
+    grid-template-columns: minmax(240px, 0.5fr) minmax(0, 1fr);
+    background: rgb(255 254 251 / 58%);
+    padding: 24px;
+    border-bottom: 0;
+  }
+
+  .rule-list {
+    gap: 14px;
+    border-top: 0;
+  }
+
+  .question-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .question-card {
+    min-height: 310px;
+    border: 1px solid var(--color-line);
+    background: linear-gradient(180deg, var(--color-white) 0%, #f4f3ed 100%);
+    padding: clamp(26px, 3vw, 34px);
+  }
+
+  .question-card h3 {
+    font-size: clamp(1.55rem, 2vw, 2.1rem);
+    line-height: 1.08;
+  }
+
+  .question-card p:not(.thin-label) {
+    margin: 22px 0 0;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 720px) {
+    .rule-row,
+    .services-lead,
+    .question-card-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .question-card {
+      min-height: auto;
+    }
+  }
+</style>

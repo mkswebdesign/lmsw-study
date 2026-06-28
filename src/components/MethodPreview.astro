@@ -1,0 +1,118 @@
+---
+import IconArrow from '@components/IconArrow.astro';
+import { methodPrinciples } from '@data/site';
+---
+
+<section class="section stone method-preview" data-reveal="section">
+  <div class="container method-layout">
+    <div class="editorial-frame method-media" data-reveal="media">
+      <img src="/assets/katie-mayes/process-cards-v2.png" alt="Five connected strategy cards arranged on a wooden table." loading="lazy" />
+    </div>
+    <div class="method-copy">
+      <h2 class="display h2 eyeless">The Mayes Method</h2>
+      <p class="lede">A messaging-first coaching framework built on four principles that hold regardless of who you're marketing for.</p>
+      <ol class="method-list" data-stagger>
+        {methodPrinciples.map((step, index) => (
+          <li>
+            <span>{String(index + 1)}</span>
+            <strong>{step.title}</strong>
+          </li>
+        ))}
+      </ol>
+      <a class="arrow-link" href="/method">Learn more about the method <IconArrow /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .method-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(36px, 7vw, 86px);
+    align-items: center;
+  }
+
+  .method-media {
+    aspect-ratio: 1.28 / 1;
+  }
+
+  .lede {
+    margin: 24px 0 26px;
+  }
+
+  .method-list {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: 0 0 32px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .method-list::before {
+    position: absolute;
+    top: 17px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-line);
+    content: "";
+  }
+
+  .method-list li {
+    position: relative;
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .method-list span {
+    z-index: 1;
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-sage);
+    border-radius: 999px;
+    background: var(--color-paper);
+    color: var(--color-sage);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .method-list strong {
+    max-width: 120px;
+    color: var(--color-muted);
+    font-size: 0.86rem;
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 920px) {
+    .method-layout,
+    .method-list {
+      grid-template-columns: 1fr;
+    }
+
+    .method-list {
+      gap: 14px;
+    }
+
+    .method-list::before {
+      display: none;
+    }
+
+    .method-list li {
+      grid-template-columns: 34px minmax(0, 1fr);
+      justify-items: start;
+      text-align: left;
+    }
+
+    .method-list strong {
+      max-width: none;
+    }
+  }
+</style>

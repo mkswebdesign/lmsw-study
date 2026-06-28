@@ -1,0 +1,193 @@
+---
+import AudienceSelector from '@components/AudienceSelector.astro';
+import CTASection from '@components/CTASection.astro';
+import Hero from '@components/Hero.astro';
+import IconArrow from '@components/IconArrow.astro';
+import MethodPreview from '@components/MethodPreview.astro';
+import OfferCards from '@components/OfferCards.astro';
+import TrustGrid from '@components/TrustGrid.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { beliefs } from '@data/site';
+---
+
+<BaseLayout>
+  <Hero />
+  <AudienceSelector />
+
+  <section class="section stone problem-section" data-reveal="section">
+    <div class="container">
+      <div class="split problem-split">
+        <div>
+          <h2 class="display h2 eyeless">When the message is unclear, every marketing decision gets heavier.</h2>
+          <div class="quiet-rule" aria-hidden="true"></div>
+        </div>
+        <div class="rule-list problem-list">
+          <div class="rule-row">
+            <span class="problem-mark" aria-hidden="true">01</span>
+            <div>
+              <h3 class="display eyeless">Unclear message</h3>
+              <p class="muted eyeless">You know what you do, but it is not landing clearly with the people who need it.</p>
+            </div>
+          </div>
+          <div class="rule-row">
+            <span class="problem-mark" aria-hidden="true">02</span>
+            <div>
+              <h3 class="display eyeless">Scattered focus</h3>
+              <p class="muted eyeless">Too many priorities are diluting the work and the time is limited.</p>
+            </div>
+          </div>
+          <div class="rule-row">
+            <span class="problem-mark" aria-hidden="true">03</span>
+            <div>
+              <h3 class="display eyeless">Stalled momentum</h3>
+              <p class="muted eyeless">You are not sure what to prioritize next or how to move forward with confidence.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section white offers-home" data-reveal="section">
+    <div class="container">
+      <div class="section-heading">
+        <h2 class="display h2 eyeless">Ways Katie can work with you</h2>
+        <p class="lede eyeless">Three offers keep the path simple: a focused outside read, ongoing advisory partnership, or a deeper strategic reset.</p>
+      </div>
+      <OfferCards />
+    </div>
+  </section>
+
+  <MethodPreview />
+  <TrustGrid />
+
+  <section class="section about-preview" data-reveal="section">
+    <div class="container about-preview-grid">
+      <div class="about-copy">
+        <h2 class="display h2 eyeless">A partner in your corner.</h2>
+        <p class="lede">
+          Katie Mayes is a writer, strategist, and straight-talker with 25+ years of experience in brand strategy,
+          messaging, and marketing leadership.
+        </p>
+        <a class="arrow-link" href="/about">Learn more about Katie <IconArrow /></a>
+      </div>
+      <div class="editorial-frame about-image" data-reveal="media">
+        <img src="/assets/katie-mayes/katie-casual.jpg" alt="Katie Mayes seated casually in her workspace." loading="eager" />
+      </div>
+    </div>
+    <div class="container">
+      <div class="beliefs" data-stagger>
+        {beliefs.map((belief) => <p>{belief}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .problem-split {
+    align-items: start;
+  }
+
+  .rule-row {
+    grid-template-columns: 42px minmax(0, 1fr);
+    align-items: start;
+    border-bottom: 0;
+    background: rgb(255 254 251 / 58%);
+    padding: 26px;
+  }
+
+  .rule-row h3 {
+    font-size: 1.55rem;
+  }
+
+  .problem-list {
+    gap: 14px;
+    border-top: 0;
+  }
+
+  .problem-mark {
+    color: var(--color-copper);
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.7fr);
+    gap: 40px;
+    align-items: end;
+    margin-bottom: 38px;
+  }
+
+  .about-preview {
+    background: linear-gradient(90deg, var(--color-paper), var(--color-white));
+  }
+
+  .about-preview-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.88fr) minmax(280px, 0.5fr);
+    gap: clamp(34px, 6vw, 76px);
+    align-items: center;
+    margin-bottom: 44px;
+  }
+
+  .about-copy .lede {
+    margin: 24px 0 28px;
+  }
+
+  .about-image {
+    aspect-ratio: 0.86 / 1;
+    max-width: 420px;
+    justify-self: end;
+  }
+
+  .about-image img {
+    object-position: center 36%;
+  }
+
+  .beliefs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .beliefs p {
+    margin: 0;
+    padding: 23px 20px;
+    border-left: 1px solid var(--color-line);
+    font-family: var(--serif);
+    font-size: clamp(1.25rem, 1.6vw, 1.65rem);
+    line-height: 1.22;
+  }
+
+  .beliefs p:first-child {
+    border-left: 0;
+  }
+
+  @media (max-width: 850px) {
+    .rule-row,
+    .section-heading,
+    .about-preview-grid,
+    .beliefs {
+      grid-template-columns: 1fr;
+    }
+
+    .beliefs p,
+    .beliefs p:first-child {
+      border-left: 0;
+      border-top: 1px solid var(--color-line);
+    }
+
+    .beliefs p:first-child {
+      border-top: 0;
+    }
+
+    .about-image {
+      justify-self: start;
+      width: min(100%, 420px);
+    }
+  }
+</style>

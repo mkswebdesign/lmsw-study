@@ -1,8 +1,18 @@
-﻿{
-  "name": "lmsw-study",
+{
+  "name": "katie-mayes-astro-rebuild",
   "version": "1.0.0",
-  "description": "LMSW Study App",
+  "description": "Astro redevelopment for the Katie Mayes strategic advisory website.",
+  "type": "module",
   "scripts": {
-    "build": "xcopy /Y index.html dist\\index.html*"
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.0.3"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1"
   }
 }

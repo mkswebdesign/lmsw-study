@@ -1,0 +1,72 @@
+---
+import CTASection from '@components/CTASection.astro';
+import FAQList from '@components/FAQList.astro';
+import PageIntro from '@components/PageIntro.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { faqs } from '@data/site';
+---
+
+<BaseLayout title="FAQ | Katie Mayes">
+  <PageIntro
+    title="Frequently asked questions"
+    lede="Answers to the things people usually wonder before they reach out. If something is not covered here, the free strategy call is the right next step."
+    ctaLabel="Book a free strategy call"
+    ctaHref="/apply"
+    secondaryLabel="Compare services"
+    secondaryHref="/services"
+  />
+
+  <section class="section compact stone faq-top" data-reveal="section">
+    <div class="container faq-markers">
+      {faqs.map((group) => <span>{group.category}</span>)}
+    </div>
+  </section>
+
+  <section class="section white faq-body">
+    <div class="container">
+      <FAQList />
+    </div>
+  </section>
+
+  <CTASection title="Still sorting the right fit? The intake is designed for that." />
+</BaseLayout>
+
+<style>
+  .faq-markers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid var(--color-line);
+    background: rgb(255 254 251 / 62%);
+  }
+
+  .faq-markers span {
+    padding: 22px;
+    border-left: 1px solid var(--color-line);
+    color: var(--color-sage);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .faq-markers span:first-child {
+    border-left: 0;
+  }
+
+  @media (max-width: 720px) {
+    .faq-markers {
+      grid-template-columns: 1fr;
+    }
+
+    .faq-markers span,
+    .faq-markers span:first-child {
+      border-left: 0;
+      border-top: 1px solid var(--color-line);
+    }
+
+    .faq-markers span:first-child {
+      border-top: 0;
+    }
+  }
+</style>

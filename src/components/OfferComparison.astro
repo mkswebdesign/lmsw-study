@@ -1,0 +1,73 @@
+---
+import { offers } from '@data/site';
+---
+
+<div class="comparison-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Offer</th>
+        <th>Best when</th>
+        <th>Primary outcome</th>
+        <th>Investment</th>
+        <th>Commitment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {offers.map((offer) => (
+        <tr>
+          <th scope="row"><a href={`/services/${offer.slug}`}>{offer.name}</a></th>
+          <td>{offer.bestFor[0]}</td>
+          <td>{offer.outcome}</td>
+          <td>{offer.investment}</td>
+          <td>{offer.timeline}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .comparison-wrap {
+    overflow-x: auto;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  table {
+    width: 100%;
+    min-width: 820px;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 24px 22px;
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  thead th {
+    color: var(--color-copper);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  tbody th {
+    width: 20%;
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+  }
+
+  tr:last-child th,
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  td {
+    color: var(--color-muted);
+  }
+</style>

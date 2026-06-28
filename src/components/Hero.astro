@@ -1,0 +1,214 @@
+---
+import IconArrow from '@components/IconArrow.astro';
+import { ctas } from '@data/site';
+---
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-copy" data-stagger>
+      <p class="thin-label">Powered by The Mayes Method</p>
+      <h1 class="display h1 eyeless">Clear messaging. Focused strategy. Whoever you're marketing for.</h1>
+      <p>
+        Whether you're building your own business or carrying the marketing weight inside someone else's, you deserve
+        more than guesswork and good intentions.
+      </p>
+      <div class="button-row">
+        <a class="button" href={ctas.primary.href}>{ctas.primary.label}</a>
+        <a class="button secondary" href={ctas.secondary.href}>{ctas.secondary.label}</a>
+      </div>
+      <div class="hero-signals" aria-label="Strategic outcomes">
+        <span>Messaging-first</span>
+        <span>Practical strategy</span>
+        <span>Real feedback</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-media editorial-frame" data-reveal="media" aria-label="Strategic workspace with notes, books, and a notebook">
+        <img
+          src="/assets/katie-mayes/hero-strategy-room-v2.png"
+          alt="A premium strategy-room workspace with an open notebook, planning papers, books, and olive branches."
+          loading="eager"
+        />
+      </div>
+    </div>
+  </div>
+  <a class="next-cue" href="#audiences">
+    Who Katie works with
+    <IconArrow />
+  </a>
+</section>
+
+<style>
+  .hero {
+    background:
+      linear-gradient(90deg, var(--color-paper) 0%, var(--color-paper) 48%, #edeae0 48%, #edeae0 100%);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .hero-grid {
+    min-height: clamp(560px, calc(100vh - 154px), 730px);
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
+    align-items: center;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(44px, 6vw, 82px) clamp(22px, 4vw, 56px);
+  }
+
+  .hero .h1 {
+    font-size: clamp(3rem, 5.2vw, 5.35rem);
+  }
+
+  .thin-label {
+    margin-bottom: 18px;
+  }
+
+  .hero-copy p {
+    max-width: 620px;
+    margin: 26px 0 0;
+    color: var(--color-muted);
+    font-size: clamp(1.05rem, 1.4vw, 1.24rem);
+    line-height: 1.8;
+  }
+
+  .hero-signals {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 620px;
+    margin-top: 24px;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .hero-signals span {
+    padding: 13px 14px;
+    border-left: 1px solid var(--color-line);
+    color: var(--color-sage);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .hero-signals span:first-child {
+    border-left: 0;
+  }
+
+  .button-row {
+    margin-top: 30px;
+  }
+
+  .hero-visual {
+    padding: clamp(28px, 5vw, 64px) clamp(22px, 6vw, 76px) clamp(28px, 5vw, 64px) 0;
+  }
+
+  .hero-media {
+    aspect-ratio: 1.43 / 1;
+    min-height: 380px;
+  }
+
+  .next-cue {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+    min-height: 78px;
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    background: var(--color-white);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .next-cue svg {
+    width: 18px;
+    height: 18px;
+    rotate: 90deg;
+  }
+
+  @media (max-width: 950px) {
+    .hero-grid {
+      min-height: auto;
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      background: var(--color-paper);
+    }
+
+    .hero-visual {
+      padding: 0 20px 56px;
+    }
+
+    .hero-media {
+      min-height: 340px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero-copy {
+      padding: 32px 20px 24px;
+    }
+
+    .hero .h1 {
+      font-size: clamp(2.55rem, 11vw, 3.05rem);
+    }
+
+    .hero-copy p {
+      margin-top: 20px;
+      font-size: 1rem;
+      line-height: 1.62;
+    }
+
+    .hero-media {
+      min-height: 150px;
+      aspect-ratio: 1.72 / 1;
+    }
+
+    .hero-signals {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .hero-signals span,
+    .hero-signals span:first-child {
+      border-top: 0;
+      border-left: 1px solid var(--color-line);
+      padding: 9px 6px;
+      font-size: 0.6rem;
+      line-height: 1.25;
+    }
+
+    .hero-signals span:first-child {
+      border-left: 0;
+    }
+
+    .hero .button-row {
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .hero .button {
+      width: auto;
+      min-height: 44px;
+      flex: 1 1 calc(50% - 5px);
+      padding: 10px 12px;
+      font-size: 0.76rem;
+    }
+
+    .hero-visual {
+      padding-bottom: 26px;
+    }
+
+    .next-cue {
+      justify-content: flex-start;
+      min-height: 58px;
+      padding-inline: 20px;
+      font-size: 1.12rem;
+    }
+  }
+</style>

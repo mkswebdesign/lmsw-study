@@ -1,0 +1,221 @@
+---
+import CTASection from '@components/CTASection.astro';
+import PageIntro from '@components/PageIntro.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { comparisonRows, methodOutcomes, methodPrinciplesFull, methodProcess } from '@data/site';
+---
+
+<BaseLayout title="The Mayes Method | Katie Mayes">
+  <PageIntro
+    title="The Mayes Method"
+    lede="Most marketing advice tells you what to do. This starts with why nothing is working."
+    ctaLabel="Explore services"
+    ctaHref="/services"
+    secondaryLabel="Book a free strategy call"
+    secondaryHref="/apply"
+  />
+
+  <section class="section white method-context" data-reveal="section">
+    <div class="container split">
+      <h2 class="display h2 eyeless">We fix the message first. Everything else follows.</h2>
+      <div>
+        <div class="editorial-frame framework-image" data-reveal="media">
+          <img src="/assets/katie-mayes/process-cards-v2.png" alt="A five-part strategy framework arranged as connected cards." loading="lazy" />
+        </div>
+        <p class="lede">
+          There is no shortage of frameworks, formulas, and five-step systems. Most skip the hardest part: figuring out
+          what is actually off before prescribing what to fix. The Mayes Method starts at the root - your message, your
+          positioning, and your voice - before moving anywhere near tactics, content, or execution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section stone comparison-section" data-reveal="section">
+    <div class="container">
+      <div class="section-lead">
+        <h2 class="display h2 eyeless">What most approaches get wrong</h2>
+        <p class="lede eyeless">
+          Output without clarity creates noise. The more consistently you show up with an unclear message, the more
+          firmly you establish the wrong impression.
+        </p>
+      </div>
+      <div class="comparison-grid">
+        <div class="comparison-head">The typical approach</div>
+        <div class="comparison-head">The Mayes Method</div>
+        {comparisonRows.map(([typical, mayes]) => (
+          <>
+            <p>{typical}</p>
+            <p>{mayes}</p>
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section white" data-reveal="section">
+    <div class="container">
+      <div class="section-lead">
+        <h2 class="display h2 eyeless">The four principles</h2>
+        <p class="lede eyeless">
+          These are not steps. They are the foundation every recommendation runs through.
+        </p>
+      </div>
+      <div class="method-grid" data-stagger>
+        {methodPrinciplesFull.map((step, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h2 class="display eyeless">{step.title}</h2>
+            <p>{step.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section stone" data-reveal="section">
+    <div class="container">
+      <div class="section-lead">
+        <h2 class="display h2 eyeless">How it works in practice</h2>
+        <p class="lede eyeless">
+          The principles shape every engagement. The process is how they come to life.
+        </p>
+      </div>
+      <div class="method-grid" data-stagger>
+        {methodProcess.map((step, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h2 class="display eyeless">{step.title}</h2>
+            <p>{step.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section white method-outcomes" data-reveal="section">
+    <div class="container">
+      <h2 class="display h2 eyeless section-title">What you walk away with</h2>
+      <div class="grid-2 outcome-grid">
+        {methodOutcomes.map((outcome) => (
+          <div class="panel">
+            <p class="thin-label">{outcome.title}</p>
+            <h3 class="display eyeless">{outcome.body}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Ready to see it in action?"
+    body="Start with a free strategy call. We will diagnose one thing together, and you will leave with something useful regardless of what comes next."
+    label="Book a free strategy call"
+    href="/apply"
+  />
+</BaseLayout>
+
+<style>
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  article {
+    min-height: 340px;
+    border: 1px solid var(--color-line);
+    background: rgb(255 254 251 / 66%);
+    padding: 28px 24px 34px;
+  }
+
+  span {
+    display: block;
+    margin-bottom: 52px;
+    color: var(--color-copper);
+    font-weight: 800;
+  }
+
+  article h2,
+  h3 {
+    font-size: clamp(1.45rem, 2vw, 2rem);
+    line-height: 1.08;
+  }
+
+  article p {
+    margin: 18px 0 0;
+    color: var(--color-muted);
+  }
+
+  .section-title {
+    margin-bottom: 34px;
+    text-align: center;
+  }
+
+  .section-lead {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(300px, 0.7fr);
+    gap: 42px;
+    align-items: end;
+    margin-bottom: 34px;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid var(--color-line);
+    background: rgb(255 254 251 / 66%);
+  }
+
+  .comparison-grid > * {
+    margin: 0;
+    border-top: 1px solid var(--color-line);
+    padding: 18px 22px;
+  }
+
+  .comparison-grid > *:nth-child(odd) {
+    border-right: 1px solid var(--color-line);
+  }
+
+  .comparison-grid > *:nth-child(-n + 2) {
+    border-top: 0;
+  }
+
+  .comparison-head {
+    color: var(--color-copper);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .outcome-grid h3 {
+    font-size: clamp(1.45rem, 2vw, 2rem);
+    line-height: 1.16;
+  }
+
+  .framework-image {
+    aspect-ratio: 1.55 / 1;
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 1000px) {
+    .method-grid,
+    .section-lead,
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .comparison-grid > *:nth-child(odd) {
+      border-right: 0;
+    }
+
+    article {
+      min-height: auto;
+    }
+
+    span {
+      margin-bottom: 18px;
+    }
+  }
+</style>

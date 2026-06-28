@@ -1,0 +1,223 @@
+---
+import CTASection from '@components/CTASection.astro';
+import PageIntro from '@components/PageIntro.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { offers } from '@data/site';
+
+export function getStaticPaths() {
+  return offers.map((offer) => ({
+    params: { slug: offer.slug },
+    props: { offer },
+  }));
+}
+
+const { offer } = Astro.props;
+
+const serviceVisuals = {
+  'outside-eye': {
+    image: '/assets/katie-mayes/hero-strategy-room-v2.png',
+    alt: 'An editorial strategy-room workspace with a notebook, books, and planning notes.',
+    surface: 'stone',
+    label: 'Focused diagnostic',
+  },
+  'thinking-partner': {
+    image: '/assets/katie-mayes/about-office-v2.png',
+    alt: 'A calm advisory office setting with strategy papers, books, and warm light.',
+    surface: 'sage-wash',
+    label: 'Ongoing advisory',
+  },
+  'strategic-reset': {
+    image: '/assets/katie-mayes/process-cards-v2.png',
+    alt: 'Five connected strategy cards arranged on a wooden table.',
+    surface: 'paper-ruled',
+    label: 'Strategic realignment',
+  },
+};
+
+const visual = serviceVisuals[offer.slug as keyof typeof serviceVisuals];
+---
+
+<BaseLayout title={`${offer.name} | Katie Mayes`} description={offer.short}>
+  <PageIntro
+    title={offer.name}
+    lede={offer.transformation}
+    ctaLabel={offer.primaryCta}
+    ctaHref="/apply"
+    secondaryLabel="Compare services"
+    secondaryHref="/services"
+  />
+
+  <section class={`section white service-visual service-${offer.slug}`} data-reveal="section">
+    <div class="container split">
+      <div>
+        <p class="thin-label">{visual.label}</p>
+        <h2 class="display h2 eyeless">{offer.short}</h2>
+        <p class="service-meta">{offer.investment} / {offer.timeline}</p>
+      </div>
+      <div class="editorial-frame service-image" data-reveal="media">
+        <img src={visual.image} alt={visual.alt} loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class={`section ${visual.surface}`} data-reveal="section">
+    <div class="container split">
+      <h2 class="display h2 eyeless">Best fit</h2>
+      <ul class="big-list" data-stagger>
+        {offer.bestFor.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section white" data-reveal="section">
+    <div class="container three-blocks" data-stagger>
+      <div>
+        <h2 class="display h3 eyeless">Problems this solves</h2>
+        <ul>{offer.solves.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div>
+        <h2 class="display h3 eyeless">What is included</h2>
+        <ul>{offer.includes.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div>
+        <h2 class="display h3 eyeless">Outcome</h2>
+        <p>{offer.outcome}</p>
+        <p class="timeline">{offer.investment} / {offer.timeline}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class={`section ${visual.surface}`} data-reveal="section">
+    <div class="container">
+      <h2 class="display h2 eyeless process-title">Process</h2>
+      <ol class="process" data-stagger>
+        {offer.process.map((step, index) => (
+          <li>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{step}</strong>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CTASection title={`If ${offer.name} sounds like the right fit, start with the intake.`} label={offer.primaryCta} />
+</BaseLayout>
+
+<style>
+  .big-list,
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .big-list li {
+    border-top: 1px solid var(--color-line);
+    padding: 24px 0;
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 2.2vw, 2.15rem);
+    line-height: 1.2;
+  }
+
+  .big-list li:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .service-image {
+    aspect-ratio: 1.45 / 1;
+  }
+
+  .service-meta {
+    margin: 24px 0 0;
+    color: var(--color-copper);
+    font-weight: 750;
+  }
+
+  .three-blocks {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .three-blocks > div {
+    min-height: 300px;
+    padding: 32px;
+    border-left: 1px solid var(--color-line);
+    background: linear-gradient(180deg, var(--color-white) 0%, #f5f4ee 100%);
+  }
+
+  .three-blocks > div:first-child {
+    border-left: 0;
+  }
+
+  .three-blocks li,
+  .three-blocks p {
+    color: var(--color-muted);
+  }
+
+  .three-blocks li + li {
+    margin-top: 12px;
+  }
+
+  .timeline {
+    color: var(--color-copper);
+    font-weight: 750;
+  }
+
+  .process-title {
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .process {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .process li {
+    min-height: 160px;
+    border: 1px solid var(--color-line);
+    padding: 28px;
+    background: rgb(255 254 251 / 64%);
+  }
+
+  .process span {
+    display: block;
+    margin-bottom: 42px;
+    color: var(--color-copper);
+    font-weight: 800;
+  }
+
+  .process strong {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  @media (max-width: 900px) {
+    .three-blocks,
+    .process {
+      grid-template-columns: 1fr;
+    }
+
+    .three-blocks > div,
+    .process li {
+      border-left: 0;
+      padding-inline: 0;
+    }
+
+    .process li {
+      padding-inline: 24px;
+    }
+
+    .process span {
+      margin-bottom: 18px;
+    }
+  }
+</style>

@@ -1,0 +1,219 @@
+---
+import PageIntro from '@components/PageIntro.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Book a Free Strategy Call | Katie Mayes"
+  description="Start a no-pressure strategy call inquiry with Katie Mayes. Share what feels unclear and Katie will reply personally within 2 business days."
+>
+  <PageIntro
+    title="Let's figure out if we're a good fit."
+    lede="No pressure, no sales pitch. Tell Katie a little about where you are and what you're working on. Katie will reply personally within 2 business days."
+    showActions={false}
+  />
+
+  <section class="section sage-wash apply-section">
+    <div class="container form-shell" data-reveal="section">
+      <div class="form-head">
+        <p class="thin-label">Free strategy call inquiry</p>
+        <h2 class="display h2 eyeless">Start with the real question.</h2>
+        <p class="lede">
+          A good inquiry does not need to be polished. A sentence or two about what feels stuck is enough to begin. This takes about 2 minutes.
+        </p>
+      </div>
+      <div class="trust-note surface-panel" aria-label="Katie Mayes credibility">
+        <strong>25+ years in brand strategy, messaging, and marketing leadership.</strong>
+        <span>Agency, organizational, and teaching experience brought into a focused strategy conversation.</span>
+      </div>
+      <form id="inquiry-form" class="inquiry-form surface-panel">
+        <div class="field-row">
+          <label>
+            Your name
+            <input name="name" autocomplete="name" placeholder="What should Katie call you?" required />
+          </label>
+          <label>
+            Email address
+            <input name="email" type="email" autocomplete="email" placeholder="Where should Katie reply?" required />
+          </label>
+        </div>
+        <label>
+          Which describes you best?
+          <select name="audience">
+            <option value="">Select your role</option>
+            <option value="founder">I run my own business</option>
+            <option value="solo">I'm an internal marketer</option>
+            <option value="other">I'm not sure where I fit yet</option>
+          </select>
+        </label>
+        <label>
+          What are you most interested in?
+          <select name="interest">
+            <option value="">Select support type</option>
+            <option value="session">A one-time session to get unstuck</option>
+            <option value="ongoing">Ongoing strategic support</option>
+            <option value="reset">A 30-day deep dive or reset</option>
+            <option value="notsure">I'm not sure yet</option>
+          </select>
+        </label>
+        <label>
+          What's going on?
+          <textarea
+            name="context"
+            rows="6"
+            placeholder="Tell Katie what you're working on, what feels stuck, or what you're hoping to figure out."
+            aria-describedby="context-help"
+            required
+          ></textarea>
+          <span class="field-help" id="context-help">
+            Example: "I'm struggling to position a new offer" or "I need help prioritizing my marketing efforts."
+          </span>
+        </label>
+        <button class="button submit-button" type="submit">Get My Free Strategy Call</button>
+        <p class="support-links">
+          Questions first? <a href="/faq">Read the FAQ</a> or <a href="/services">review services</a>.
+        </p>
+        <p class="form-note" id="form-note" role="status" tabindex="-1" hidden>
+          Thanks - this gives Katie the context she needs. Katie will reply personally within 2 business days.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    const form = document.querySelector('#inquiry-form');
+    const note = document.querySelector('#form-note');
+
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      // Front-end confirmation only until the approved submission endpoint is connected.
+      note?.removeAttribute('hidden');
+      note?.focus();
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .form-shell {
+    display: grid;
+    max-width: 860px;
+    gap: 24px;
+  }
+
+  .inquiry-form {
+    display: grid;
+    gap: 20px;
+    padding: clamp(26px, 4vw, 42px);
+    background: rgb(255 254 251 / 82%);
+  }
+
+  .form-head {
+    max-width: 720px;
+  }
+
+  .form-head .thin-label {
+    margin-bottom: 12px;
+  }
+
+  .form-head .lede {
+    margin-top: 18px;
+  }
+
+  .trust-note {
+    display: grid;
+    gap: 8px;
+    padding: 20px 22px;
+    border-left: 3px solid var(--color-copper);
+    background: rgb(255 254 251 / 72%);
+  }
+
+  .trust-note strong {
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.12rem, 1.6vw, 1.36rem);
+    font-weight: 520;
+    line-height: 1.25;
+  }
+
+  .trust-note span {
+    color: var(--color-muted);
+    line-height: 1.55;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  label {
+    display: grid;
+    gap: 8px;
+    color: var(--color-ink);
+    font-size: 0.9rem;
+    font-weight: 750;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+    background: var(--color-white);
+    color: var(--color-ink);
+    padding: 13px 14px;
+    font-size: 1rem;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 150px;
+  }
+
+  .field-help {
+    color: var(--color-muted);
+    font-size: 0.86rem;
+    font-weight: 520;
+    line-height: 1.5;
+  }
+
+  .submit-button {
+    justify-self: start;
+    min-width: 240px;
+  }
+
+  .support-links {
+    margin: -4px 0 0;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .support-links a {
+    color: var(--color-blue-dark);
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .form-note {
+    margin: 0;
+    padding: 16px;
+    background: rgb(58 107 178 / 12%);
+    color: var(--color-blue-dark);
+    font-weight: 650;
+  }
+
+  @media (max-width: 840px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .submit-button {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+import { ctas, site } from '@data/site';
+---
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="brand footer-logo-link" href="/" aria-label="Katie Mayes home">
+        <img class="brand-logo footer-logo" src="/assets/katie-mayes/km-logo.png" alt={site.name} />
+      </a>
+      <p>Clear messaging. Focused strategy. Whoever you're marketing for.</p>
+    </div>
+    <nav aria-label="Footer">
+      {site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href={ctas.primary.href}>{ctas.primary.label}</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 54px 0;
+    background: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .brand {
+    display: inline-flex;
+    width: 190px;
+    margin-bottom: 18px;
+  }
+
+  .brand img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: brightness(0) invert(1) grayscale(1);
+  }
+
+  p {
+    max-width: 440px;
+    margin: 0;
+    color: rgb(255 254 251 / 72%);
+  }
+
+  nav {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px 32px;
+    font-size: 0.92rem;
+    font-weight: 650;
+  }
+
+  nav a {
+    color: rgb(255 254 251 / 78%);
+  }
+
+  nav a:hover,
+  nav a:focus-visible {
+    color: var(--color-white);
+  }
+
+  @media (max-width: 700px) {
+    .footer-grid,
+    nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
