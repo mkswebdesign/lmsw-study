@@ -42,14 +42,14 @@ const isActive = (href: string) => {
   }
 
   .header-inner {
-    width: min(100%, 1440px);
+    width: 100%;
     min-height: 86px;
     margin-inline: auto;
     display: grid;
     grid-template-columns: clamp(140px, 12vw, 176px) minmax(0, 1fr) auto;
     gap: 30px;
     align-items: center;
-    padding: 0 clamp(20px, 4vw, 42px);
+    padding: 0 clamp(22px, 6vw, 76px) 0 clamp(22px, 4vw, 56px);
   }
 
   .brand {
@@ -106,6 +106,7 @@ const isActive = (href: string) => {
   .mobile-menu {
     display: none;
     position: relative;
+    justify-self: end;
   }
 
   .mobile-menu summary {
@@ -178,7 +179,7 @@ const isActive = (href: string) => {
 
   @media (max-width: 760px) {
     .header-inner {
-      grid-template-columns: 138px auto;
+      grid-template-columns: 138px 1fr auto;
     }
 
     .nav-links {
@@ -192,6 +193,8 @@ const isActive = (href: string) => {
 
   @media (max-width: 560px) {
     .header-inner {
+      grid-template-columns: 138px 1fr;
+      padding-inline: 20px;
       gap: 12px;
     }
 

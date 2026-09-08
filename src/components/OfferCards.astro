@@ -10,8 +10,10 @@ import { offers } from '@data/site';
       <p class="thin-label">{offer.name}</p>
       <h3 class="display eyeless">{offer.transformation}</h3>
       <p>{offer.short}</p>
-      <p class="offer-meta">{offer.investment} / {offer.timeline}</p>
-      <span class="arrow-link">Learn more <IconArrow /></span>
+      <div class="offer-footer">
+        <p class="offer-meta">{offer.investment}<span>{offer.timeline}</span></p>
+        <span class="arrow-link">Learn more <IconArrow /></span>
+      </div>
     </a>
   ))}
 </div>
@@ -109,10 +111,32 @@ import { offers } from '@data/site';
     color: var(--color-muted);
   }
 
-  .offer-meta {
+  .offer-footer {
     margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .offer-footer .offer-meta {
+    margin: 0 0 20px;
     color: var(--color-copper);
     font-weight: 750;
+  }
+
+  .offer-meta span {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--color-muted);
+  }
+
+  .offer-strategic-reset .offer-footer {
+    border-color: rgb(255 254 251 / 24%);
+  }
+
+  .offer-strategic-reset .offer-meta span {
+    color: rgb(255 254 251 / 74%);
   }
 
   .offer-strategic-reset .offer-meta {

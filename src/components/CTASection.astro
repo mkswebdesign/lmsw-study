@@ -14,8 +14,8 @@ const {
 } = Astro.props;
 ---
 
-<section class="section dark final-cta" data-reveal="section">
-  <div class="container">
+<section class="section dark final-cta">
+  <div class="container" data-reveal="section">
     <h2 class="display h2 eyeless">{title}</h2>
     <p>{body}</p>
     <a class="button" href={href}>{label}</a>
@@ -25,6 +25,7 @@ const {
 <style>
   .final-cta {
     text-align: center;
+    border-top: 0;
   }
 
   h2 {
