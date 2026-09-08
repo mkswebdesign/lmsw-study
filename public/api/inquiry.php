@@ -14,14 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if ($origin !== '' && !in_array($origin, ['https://katiemayes.com', 'https://www.katiemayes.com'], true)) respond(403, 'Please submit from katiemayes.com.');
-if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 16000) respond(413, 'Your inquiry is too long.');
-$raw = file_get_contents('php://input', false, null, 0, 16001);
-if (strlen($raw) > 16000) respond(413, 'Your inquiry is too long.');
+if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 48000) respond(413, 'Your inquiry is too long.');
+$raw = file_get_contents('php://input', false, null, 0, 48001);
+if (strlen($raw) > 48000) respond(413, 'Your inquiry is too long.');
 $data = str_contains($_SERVER['CONTENT_TYPE'] ?? '', 'application/json') ? json_decode($raw, true) : $_POST;
 if (!is_array($data)) respond(400, 'Please check your form and try again.');
 function field(array $data, string $key, int $max): string {
     $value = $data[$key] ?? '';
-    if (!is_string($value) || strlen($value) > $max || str_contains($value, "\0")) respond(422, 'Please check your form fields.');
+    if (!is_string($value) || str_contains($value, "\0") || preg_match_all('/./us', $value) === false || preg_match_all('/./us', $value) > $max) respond(422, 'Please check your form fields.');
     return trim($value);
 }
 if (field($data, 'website', 1000) !== '') respond(422, 'Please leave the website field empty.');
@@ -46,7 +46,7 @@ $config = is_file($private . '/emailit.json') ? json_decode(file_get_contents($p
 if (!is_array($config) || empty($config['api_key']) || !filter_var($config['recipient'] ?? '', FILTER_VALIDATE_EMAIL)) respond(503, 'Inquiries are temporarily unavailable. Please try again shortly.');
 // The fixed recipient and sender are never taken from browser input.
 $payload = ['from' => 'Katie Mayes Website <inquiries@katiemayes.com>', 'to' => $config['recipient'], 'reply_to' => $email,
-    'subject' => $source === 'apply' ? 'New strategy call inquiry  -  Katie Mayes' : 'New contact inquiry  -  Katie Mayes',
+    'subject' => $source === 'apply' ? 'New strategy call inquiry — Katie Mayes' : 'New contact inquiry — Katie Mayes',
     'text' => "Name: $name\nEmail: $email\nPage: /$source/\nRole: {$audiences[$audience]}\nInterest: {$interests[$interest]}\n\nMessage:\n$context",
     'tracking' => ['loads' => false, 'clicks' => false]];
 if (!empty($config['bcc'])) {
@@ -64,13 +64,28 @@ $attempts = array_values(array_filter($attempts, fn($time) => is_int($time) && $
 if (count($attempts) >= 5) { header('Retry-After: 900'); respond(429, 'Too many attempts. Please wait 15 minutes and try again.'); }
 $attempts[] = time();
 ftruncate($rate, 0); rewind($rate); fwrite($rate, json_encode($attempts)); fflush($rate); flock($rate, LOCK_UN); fclose($rate);
+// A fresh token must match this form action and the production hostname.
+$token = field($data, 'cf-turnstile-response', 2048);
+if ($token === '') respond(403, 'Please complete the security check and try again.');
+if (empty($config['turnstile_secret'])) respond(503, 'The security check is temporarily unavailable. Please try again shortly.');
+$verify = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
+curl_setopt_array($verify, [CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_TIMEOUT => 10,
+    CURLOPT_POSTFIELDS => http_build_query(['secret' => $config['turnstile_secret'], 'response' => $token])]);
+$verification = curl_exec($verify);
+$verifyStatus = (int)curl_getinfo($verify, CURLINFO_RESPONSE_CODE);
+curl_close($verify);
+$verified = is_string($verification) ? json_decode($verification, true) : null;
+if ($verifyStatus !== 200 || !is_array($verified) || ($verified['success'] ?? false) !== true
+    || ($verified['action'] ?? '') !== $source || !in_array($verified['hostname'] ?? '', ['katiemayes.com', 'www.katiemayes.com'], true)) {
+    respond(403, 'The security check expired or could not be verified. Please complete it again and resend. Your entries have been kept.');
+}
 // Lock each submission so retries cannot send concurrent duplicates.
 $submission = fopen($private . '/submission-' . hash('sha256', $id), 'c+');
 if (!$submission || !flock($submission, LOCK_EX)) respond(503, 'Please try again shortly.');
 $previous = json_decode(stream_get_contents($submission), true);
 $digest = hash('sha256', $encoded);
 if ($previous && ($previous['digest'] ?? '') !== $digest) respond(409, 'This form has changed. Reload the page before sending again.');
-if (($previous['sent'] ?? false) === true) respond(200, 'Thank you  -  your inquiry has been sent. Katie will reply within 2 business days.', true);
+if (($previous['sent'] ?? false) === true) respond(200, 'Thank you — your inquiry has been sent. Katie will reply within 2 business days.', true);
 ftruncate($submission, 0); rewind($submission); fwrite($submission, json_encode(['digest' => $digest, 'sent' => false])); fflush($submission);
 $curl = curl_init('https://api.emailit.com/v2/emails');
 curl_setopt_array($curl, [CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_TIMEOUT => 20,
@@ -84,4 +99,4 @@ if ($status < 200 || $status >= 300 || empty($body['id'])) {
     respond(502, 'Your inquiry could not be confirmed. Please try again. Your entries have been kept.');
 }
 ftruncate($submission, 0); rewind($submission); fwrite($submission, json_encode(['digest' => $digest, 'sent' => true])); fflush($submission);
-respond(200, 'Thank you  -  your inquiry has been sent. Katie will reply within 2 business days.', true);
+respond(200, 'Thank you — your inquiry has been sent. Katie will reply within 2 business days.', true);

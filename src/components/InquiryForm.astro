@@ -1,7 +1,7 @@
 ---
 const { source = "apply" } = Astro.props;
 ---
-      <form id="inquiry-form" class="inquiry-form surface-panel" action="/api/inquiry.php" method="post">
+      <form id="inquiry-form" class="inquiry-form surface-panel" action="/api/inquiry.php" method="post" novalidate>
         <input type="hidden" name="source" value={source} />
         <label class="trap" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label>
         <div class="field-row">
@@ -47,6 +47,8 @@ const { source = "apply" } = Astro.props;
           </span>
         </label>
         <label class="consent"><input type="checkbox" name="consent" value="agreed" required /><span>I agree to the <a href="/terms/" target="_blank" rel="noopener">Terms &amp; Conditions</a> and acknowledge the <a href="/privacy/" target="_blank" rel="noopener">Privacy Notice</a>, including use of my information to respond to this inquiry.</span></label>
+        <div id="inquiry-verification" data-sitekey="0x4AAAAAAEtEwCj8bWUH-oyF" data-action={source}></div>
+        <button type="button" class="verification-retry" hidden>Retry security check</button>
         <button class="button submit-button" type="submit" aria-describedby="form-note">Send inquiry</button>
         <p class="support-links">
           Questions first? <a href="/faq">Read the FAQ</a> or <a href="/services">review services</a>.
@@ -55,40 +57,123 @@ const { source = "apply" } = Astro.props;
           Katie will reply personally within 2 business days.
         </p>
       </form>
+      <section id="inquiry-success" class="success-panel surface-panel" hidden tabindex="-1" aria-labelledby="success-title"><h2 id="success-title" class="display h3">Your inquiry has been sent.</h2><p>Thank you for reaching out. Katie will reply personally within 2 business days.</p><a href="/services/" class="arrow-link">Explore services</a></section>
 <script>
-  const form = document.querySelector<HTMLFormElement>('#inquiry-form');
-  const note = document.querySelector<HTMLElement>('#form-note');
-  const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  type Turnstile = { render: (element: HTMLElement, options: Record<string, unknown>) => string; reset: (id: string) => void };
+  const win = window as typeof window & { turnstile?: Turnstile };
+  const form = document.querySelector<HTMLFormElement>('#inquiry-form')!;
+  const note = document.querySelector<HTMLElement>('#form-note')!;
+  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+  const retry = form.querySelector<HTMLButtonElement>('.verification-retry')!;
+  const widget = document.querySelector<HTMLElement>('#inquiry-verification')!;
+  let widgetId: string | undefined;
+  let token = '';
+  let submitting = false;
   let submissionId = crypto.randomUUID();
-  form?.addEventListener('submit', async (event) => {
+  let lastPayload = '';
+  const showStatus = (message: string, state = 'error') => {
+    note.textContent = message;
+    note.dataset.state = state;
+  };
+  const verificationFailed = () => {
+    token = '';
+    retry.hidden = false;
+    if (!submitting) showStatus('The security check could not complete. Please retry the security check below.', 'verification');
+  };
+  const renderWidget = () => {
+    if (widgetId || !win.turnstile) return;
+    widgetId = win.turnstile.render(widget, {
+      sitekey: widget.dataset.sitekey, action: widget.dataset.action, theme: 'light', size: 'flexible',
+      callback: (value: string) => { token = value; retry.hidden = true; if (!submitting && note.dataset.state === 'verification') showStatus('Security check complete. You can send your inquiry.', 'ready'); },
+      'expired-callback': () => { token = ''; if (widgetId) win.turnstile?.reset(widgetId); },
+      'error-callback': verificationFailed, 'timeout-callback': verificationFailed,
+    });
+  };
+  const loadWidget = () => {
+    if (win.turnstile) { renderWidget(); return; }
+    document.querySelector('#turnstile-script')?.remove();
+    const script = document.createElement('script');
+    script.id = 'turnstile-script';
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.onload = renderWidget;
+    script.onerror = verificationFailed;
+    document.head.append(script);
+  };
+  retry.addEventListener('click', () => {
+    showStatus('Checking your browser…', 'verification');
+    retry.hidden = true;
+    if (widgetId) win.turnstile?.reset(widgetId); else loadWidget();
+  });
+  loadWidget();
+  form.addEventListener('input', (event) => {
+    const field = event.target as HTMLInputElement;
+    field.setCustomValidity?.('');
+    field.removeAttribute('aria-invalid');
+  });
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (!button || !note || button.disabled) return;
+    if (submitting) return;
+    for (const name of ['name', 'email', 'context']) {
+      const field = form.elements.namedItem(name) as HTMLInputElement;
+      field.value = field.value.trim();
+    }
+    if (!form.checkValidity()) {
+      const invalid = form.querySelector<HTMLInputElement>(':invalid')!;
+      invalid.setAttribute('aria-invalid', 'true');
+      const messages: Record<string, string> = { name: 'Please enter your name.', email: 'Please enter a valid email address.', context: 'Please tell Katie a little about what you need.', consent: 'Please agree to the Terms & Conditions and acknowledge the Privacy Notice.' };
+      showStatus(messages[invalid.name] || 'Please check the highlighted field.');
+      invalid.focus();
+      return;
+    }
+    if (!token) {
+      showStatus('Please complete the security check before sending your inquiry.', 'verification');
+      widget.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return;
+    }
+    submitting = true;
     button.disabled = true;
-    button.textContent = 'Sending…';
-    note.textContent = 'Sending your inquiry…';
+    button.textContent = 'Sending your inquiry…';
+    showStatus('Sending your inquiry. Please keep this page open.', 'sending');
     try {
       const data = Object.fromEntries(new FormData(form));
+      delete data['cf-turnstile-response'];
+      const signature = JSON.stringify(data);
+      if (lastPayload && signature !== lastPayload) submissionId = crypto.randomUUID();
+      lastPayload = signature;
       const response = await fetch(form.action, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, submissionId }),
+        body: JSON.stringify({ ...data, submissionId, 'cf-turnstile-response': token }),
       });
       const result = await response.json().catch(() => { throw new Error('We could not confirm delivery. Please try again. Your entries have been kept.'); });
       if (!response.ok || !result.ok) throw new Error(result.message || 'Your inquiry could not be sent. Please try again.');
-      note.textContent = result.message;
-      form.reset();
-      submissionId = crypto.randomUUID();
+      form.hidden = true;
+      const success = document.querySelector<HTMLElement>('#inquiry-success')!;
+      success.hidden = false;
+      success.focus({ preventScroll: true });
+      success.scrollIntoView({ block: 'center', behavior: 'smooth' });
     } catch (error) {
-      note.textContent = error instanceof TypeError
-        ? 'We could not connect. Please check your connection and try again. Your entries have been kept.'
-        : error instanceof Error ? error.message : 'Your inquiry could not be sent. Please try again.';
+      showStatus(error instanceof TypeError ? 'We could not connect. Check your connection and try again. Your entries have been kept.' : error instanceof Error ? error.message : 'Your inquiry could not be sent. Please try again.');
+      token = '';
+      if (widgetId) win.turnstile?.reset(widgetId);
+      note.focus({ preventScroll: true });
+      note.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     } finally {
+      submitting = false;
       button.disabled = false;
       button.textContent = 'Send inquiry';
-      note.focus();
     }
   });
 </script>
 <style>
+  [hidden] { display: none !important; }
+  .success-panel { padding: clamp(26px, 4vw, 42px); border-left: 4px solid var(--color-blue); }
+  .form-note { min-height: 82px; }
+  .form-note[data-state="error"] { background: var(--color-burgundy-light); color: var(--color-burgundy-dark); border-left: 3px solid var(--color-burgundy); }
+  [aria-invalid="true"] { outline: 2px solid var(--color-burgundy); outline-offset: 2px; }
+  .verification-retry { justify-self: start; background: none; border: 0; text-decoration: underline; color: var(--color-blue-dark); cursor: pointer; }
+  #inquiry-verification { min-height: 65px; width: 100%; }
+
   .consent { display: flex; align-items: flex-start; gap: 12px; font-weight: 400; }
   .consent input { width: 18px; height: 18px; flex: 0 0 18px; margin: 4px 0 0; padding: 0; accent-color: var(--color-copper); }
   .consent a { text-decoration: underline; text-underline-offset: 3px; }
