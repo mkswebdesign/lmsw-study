@@ -1,5 +1,6 @@
 ---
 interface Props {
+  divider?: boolean;
   title?: string;
   body?: string;
   label?: string;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const {
+  divider = false,
   title = 'Bring the right kind of outside perspective into the room.',
   body = 'Use the intake to share what feels unclear, where the decision pressure is showing up, and what kind of strategic support would be most useful.',
   label = 'Book a free strategy call',
@@ -15,6 +17,7 @@ const {
 ---
 
 <section class="section dark final-cta">
+  {divider && <svg class="section-divider" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H1440 V2 Q720 76 0 2Z" fill="var(--color-paper)" /></svg>}
   <div class="container" data-reveal="section">
     <h2 class="display h2 eyeless">{title}</h2>
     <p>{body}</p>
@@ -24,9 +27,12 @@ const {
 
 <style>
   .final-cta {
+    position: relative;
     text-align: center;
     border-top: 0;
   }
+
+  .section-divider { position: absolute; top: -1px; left: 0; width: 100%; height: 40px; }
 
   h2 {
     max-width: 870px;
