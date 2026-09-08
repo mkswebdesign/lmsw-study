@@ -1,0 +1,9 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageIntro from '@components/PageIntro.astro';
+---
+<BaseLayout title="Terms & Conditions | Katie Mayes">
+<PageIntro title="Terms & Conditions" lede="Effective September 8, 2026." showActions={false} />
+<section class="section white"><div class="container legal-copy"><h2>Using this website</h2><p>This website provides information about Katie Mayes and her strategy and coaching services. Please use the website and inquiry forms for legitimate questions and requests about those services.</p><h2>Inquiries and strategy calls</h2><p>Submitting an inquiry asks Katie to contact you. It does not schedule a call, create a client relationship, or commit you to a paid service. Any appointment, scope of work, fees, and service terms will be confirmed separately.</p><h2>Information you submit</h2><p>Please provide accurate contact details and only information you are entitled to share. Do not include passwords, payment card details, or sensitive personal information in your message.</p><h2>Questions</h2><p>For questions about these terms, contact <a href="mailto:katie@mayesmarcom.com">katie@mayesmarcom.com</a>.</p></div></section>
+</BaseLayout>
+<style>.legal-copy { max-width: 800px; } h2 { font-family: var(--serif); font-weight: 400; font-size: 1.8rem; margin: 32px 0 12px; } h2:first-child { margin-top: 0; } p { color: var(--color-muted); } a { text-decoration: underline; }</style>

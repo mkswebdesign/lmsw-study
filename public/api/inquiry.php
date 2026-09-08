@@ -25,6 +25,7 @@ function field(array $data, string $key, int $max): string {
     return trim($value);
 }
 if (field($data, 'website', 1000) !== '') respond(422, 'Please leave the website field empty.');
+if (field($data, 'consent', 20) !== 'agreed') respond(422, 'Please agree to the Terms & Conditions and acknowledge the Privacy Notice.');
 $name = field($data, 'name', 120);
 $email = field($data, 'email', 254);
 $context = field($data, 'context', 8000);
@@ -48,6 +49,11 @@ $payload = ['from' => 'Katie Mayes Website <inquiries@katiemayes.com>', 'to' => 
     'subject' => $source === 'apply' ? 'New strategy call inquiry â€” Katie Mayes' : 'New contact inquiry â€” Katie Mayes',
     'text' => "Name: $name\nEmail: $email\nPage: /$source/\nRole: {$audiences[$audience]}\nInterest: {$interests[$interest]}\n\nMessage:\n$context",
     'tracking' => ['loads' => false, 'clicks' => false]];
+if (!empty($config['bcc'])) {
+    if (!filter_var($config['bcc'], FILTER_VALIDATE_EMAIL)) respond(503, 'Please try again shortly.');
+    $payload['bcc'] = $config['bcc'];
+}
+$payload['text'] .= "\n\nTerms agreed and Privacy Notice acknowledged (2026-09-08).";
 $encoded = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 // Limit attempts using the direct peer IP; forwarded headers cannot bypass the limit.
 $ratePath = $private . '/rate-' . hash('sha256', $_SERVER['REMOTE_ADDR'] ?? 'unknown');

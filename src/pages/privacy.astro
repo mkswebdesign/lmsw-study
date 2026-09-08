@@ -1,0 +1,9 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageIntro from '@components/PageIntro.astro';
+---
+<BaseLayout title="Privacy Notice | Katie Mayes">
+<PageIntro title="Privacy Notice" lede="Effective September 8, 2026." showActions={false} />
+<section class="section white"><div class="container legal-copy"><h2>Information collected through inquiries</h2><p>When you submit a form, we receive your name, email address, selected role and support interest, message, and your acknowledgment of this notice. The website also uses request information, including an IP-based identifier, to limit abusive submissions.</p><h2>How information is used and shared</h2><p>Your information is used to respond to your inquiry and discuss the services you request. Form submissions are delivered through Emailit to Katie Mayes. MKS Web Design also receives a copy while helping operate and verify the website's inquiry system. X Cloud and Cloudflare support hosting and website delivery.</p><h2>Follow-up and retention</h2><p>Submitting an inquiry does not subscribe you to a marketing newsletter. Inquiry emails may be retained for correspondence and business records. Please contact Katie if you want to request access, correction, or deletion of the information you submitted.</p><h2>Contact</h2><p>Send privacy questions or requests to <a href="mailto:katie@mayesmarcom.com">katie@mayesmarcom.com</a>. Please avoid sending sensitive information through the website forms.</p></div></section>
+</BaseLayout>
+<style>.legal-copy { max-width: 800px; } h2 { font-family: var(--serif); font-weight: 400; font-size: 1.8rem; margin: 32px 0 12px; } h2:first-child { margin-top: 0; } p { color: var(--color-muted); } a { text-decoration: underline; }</style>
