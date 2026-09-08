@@ -24,7 +24,7 @@ function field(array $data, string $key, int $max): string {
     if (!is_string($value) || str_contains($value, "\0") || preg_match_all('/./us', $value) === false || preg_match_all('/./us', $value) > $max) respond(422, 'Please check your form fields.');
     return trim($value);
 }
-if (field($data, 'website', 1000) !== '') respond(422, 'Please leave the website field empty.');
+// Ignore legacy honeypot input: password managers can autofill it. Turnstile verifies bots.
 if (field($data, 'consent', 20) !== 'agreed') respond(422, 'Please agree to the Terms & Conditions and acknowledge the Privacy Notice.');
 $name = field($data, 'name', 120);
 $email = field($data, 'email', 254);
@@ -33,7 +33,9 @@ $source = field($data, 'source', 20);
 $audience = field($data, 'audience', 20);
 $interest = field($data, 'interest', 20);
 $id = field($data, 'submissionId', 80);
-if ($name === '' || preg_match('/[\r\n]/', $name) || !filter_var($email, FILTER_VALIDATE_EMAIL) || $context === '') respond(422, 'Please enter your name, a valid email address, and your message.');
+if ($name === '' || preg_match('/[\r\n]/', $name)) respond(422, 'Please enter your name.');
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) respond(422, 'Please enter a valid email address.');
+if ($context === '') respond(422, 'Please tell Katie a little about what you need.');
 if (!in_array($source, ['apply', 'contact'], true)) respond(422, 'Please use the strategy-call or contact form.');
 $audiences = ['' => 'Not specified', 'founder' => 'Founder / entrepreneur', 'solo' => 'Solo internal marketer', 'other' => 'Other / unsure'];
 $interests = ['' => 'Not specified', 'session' => 'One-time session', 'ongoing' => 'Ongoing support', 'reset' => 'Strategic reset', 'notsure' => 'Not sure yet'];

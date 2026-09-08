@@ -3,7 +3,6 @@ const { source = "apply" } = Astro.props;
 ---
       <form id="inquiry-form" class="inquiry-form surface-panel" action="/api/inquiry.php" method="post" novalidate>
         <input type="hidden" name="source" value={source} />
-        <label class="trap" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label>
         <div class="field-row">
           <label>
             Your name
@@ -177,7 +176,6 @@ const { source = "apply" } = Astro.props;
   .consent { display: flex; align-items: flex-start; gap: 12px; font-weight: 400; }
   .consent input { width: 18px; height: 18px; flex: 0 0 18px; margin: 4px 0 0; padding: 0; accent-color: var(--color-copper); }
   .consent a { text-decoration: underline; text-underline-offset: 3px; }
-  .trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   button:disabled { opacity: 0.65; cursor: wait; }
   .form-shell {
     display: grid;
