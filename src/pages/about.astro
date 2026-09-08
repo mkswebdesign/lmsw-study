@@ -1,4 +1,5 @@
 ---
+import PageIntro from '@components/PageIntro.astro';
 import CTASection from '@components/CTASection.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 
@@ -36,25 +37,13 @@ const credentials = [
 ---
 
 <BaseLayout title="About Katie Mayes | Strategic Advisor">
-  <section class="about-hero">
-    <div class="container about-hero-grid">
-      <div class="about-hero-copy" data-stagger>
-        <h1 class="display h1 eyeless">Strategy-first. No guesswork. No hype.</h1>
-        <p class="lede">
-          For more than 25 years, Katie has helped business owners, consultants, and organizations figure out what to
-          say, how to say it, and what to do next. She is a writer and a strategist, which means the thinking and the
-          words matter in equal measure.
-        </p>
-        <div class="button-row">
-          <a class="button" href="/apply">Book a free strategy call</a>
-          <a class="button secondary" href="/method">Explore the method</a>
-        </div>
-      </div>
-      <div class="editorial-frame about-hero-image" data-reveal="media">
-        <img src="/assets/katie-mayes/katie-hero.jpg" alt="Katie Mayes in a navy blazer against a deep blue backdrop." loading="eager" />
-      </div>
-    </div>
-  </section>
+  <PageIntro
+    title="Strategy-first. No guesswork. No hype."
+    lede="For more than 25 years, Katie has helped business owners, consultants, and organizations figure out what to say, how to say it, and what to do next. She is a writer and a strategist, which means the thinking and the words matter in equal measure."
+    image="/assets/katie-mayes/katie-hero.jpg"
+    imageAlt="Katie Mayes in a navy blazer against a deep blue backdrop."
+    secondaryLabel="Explore the method" secondaryHref="/method"
+  />
 
   <section class="section white about-feature" data-reveal="section">
     <div class="container split">
@@ -147,53 +136,8 @@ const credentials = [
 </BaseLayout>
 
 <style>
-  .about-hero {
-    border-bottom: 1px solid var(--color-line);
-    background:
-      linear-gradient(90deg, rgb(17 32 51 / 3%) 0 1px, transparent 1px 100%),
-      linear-gradient(180deg, var(--color-white) 0%, var(--color-paper) 100%);
-    background-size: 92px 100%, auto;
-    padding: clamp(62px, 8vw, 104px) 0;
-  }
-
-  .about-hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
-    gap: clamp(36px, 7vw, 86px);
-    align-items: center;
-  }
-
-  .about-hero-copy {
-    position: relative;
-  }
-
-  .about-hero-copy::after {
-    display: block;
-    width: 76px;
-    height: 1px;
-    margin-top: 32px;
-    background: var(--color-copper);
-    content: "";
-  }
-
-  .about-hero-copy .lede {
-    margin: 30px 0 0;
-  }
-
   .about-feature .lede + .lede {
     margin-top: 18px;
-  }
-
-  .about-hero-copy .button-row {
-    margin-top: 32px;
-  }
-
-  .about-hero-image {
-    aspect-ratio: 0.78 / 1;
-  }
-
-  .about-hero-image img {
-    object-position: center top;
   }
 
   .about-media {
@@ -305,16 +249,5 @@ const credentials = [
   }
 
   @media (max-width: 850px) {
-    .about-hero-grid,
-    .belief-layout,
-    .working-grid,
-    .credentials-grid,
-    .credential-row {
-      grid-template-columns: 1fr;
     }
-
-    .about-hero-image {
-      max-width: 420px;
-    }
-  }
 </style>

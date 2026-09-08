@@ -1,7 +1,10 @@
 ---
+import Breadcrumbs from '@components/Breadcrumbs.astro';
 import { ctas } from '@data/site';
 
 interface Props {
+  image?: string;
+  imageAlt?: string;
   title: string;
   lede: string;
   ctaLabel?: string;
@@ -12,6 +15,7 @@ interface Props {
 }
 
 const {
+  image, imageAlt,
   title,
   lede,
   ctaLabel = ctas.primary.label,
@@ -22,59 +26,39 @@ const {
 } = Astro.props;
 ---
 
-<section class="page-intro">
+<section class:list={['page-intro', { 'with-image': image, 'long-title': title.length > 65 }]} aria-labelledby="page-title">
+  <div class="container"><Breadcrumbs /></div>
   <div class="container intro-grid" data-stagger>
-    <h1 class="display h1 eyeless">{title}</h1>
-    <div>
-      <p class="lede eyeless">{lede}</p>
-      {
-        showActions && (
-          <div class="button-row">
-            <a class="button" href={ctaHref}>{ctaLabel}</a>
-            {secondaryLabel && secondaryHref && <a class="button secondary" href={secondaryHref}>{secondaryLabel}</a>}
-          </div>
-        )
-      }
+    <div class="intro-copy">
+      <h1 id="page-title" class="display eyeless">{title}</h1>
+      {image && <p class="lede eyeless">{lede}</p>}
+      {image && showActions && <div class="button-row"><a class="button" href={ctaHref}>{ctaLabel}</a>{secondaryLabel && secondaryHref && <a class="button secondary" href={secondaryHref}>{secondaryLabel}</a>}</div>}
     </div>
+    {image ? <div class="intro-image editorial-frame"><img src={image} alt={imageAlt || ''} width="600" height="720" loading="eager" /></div> :
+    <div class="intro-detail">
+      <p class="lede eyeless">{lede}</p>
+      {showActions && <div class="button-row"><a class="button" href={ctaHref}>{ctaLabel}</a>{secondaryLabel && secondaryHref && <a class="button secondary" href={secondaryHref}>{secondaryLabel}</a>}</div>}
+    </div>}
   </div>
+  <div class="container intro-divider" aria-hidden="true"><span></span></div>
 </section>
-
 <style>
-  .page-intro {
-    border-bottom: 1px solid var(--color-line);
-    background:
-      linear-gradient(90deg, rgb(17 32 51 / 3%) 0 1px, transparent 1px 100%),
-      linear-gradient(180deg, var(--color-white) 0%, var(--color-paper) 100%);
-    background-size: 92px 100%, auto;
-    padding: 96px 0 84px;
-  }
-
-  .intro-grid {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.8fr);
-    gap: clamp(36px, 6vw, 84px);
-    align-items: end;
-  }
-
-  .intro-grid::after {
-    position: absolute;
-    left: 0;
-    bottom: -34px;
-    width: 76px;
-    height: 1px;
-    background: var(--color-copper);
-    content: "";
-  }
-
-  .button-row {
-    margin-top: 32px;
-  }
-
-  @media (max-width: 850px) {
-    .intro-grid {
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
+  .page-intro { padding: 28px 0 0; background: linear-gradient(135deg, var(--color-white), var(--color-paper)); }
+  .intro-grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; padding-block: 48px 60px; }
+  h1 { font-size: clamp(2.5rem, 4.2vw, 4.4rem); line-height: 1.06; text-wrap: balance; max-width: 16ch; }
+  .long-title h1 { font-size: clamp(2.25rem, 3.5vw, 3.65rem); max-width: 21ch; }
+  .lede { font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.7; max-width: 54ch; }
+  .button-row { margin-top: 26px; gap: 12px; }
+  .button { padding-inline: 18px; }
+  .intro-divider { height: 1px; background: var(--color-line); position: relative; }
+  .intro-divider span { position: absolute; left: 0; top: -2px; width: 72px; height: 3px; background: var(--color-copper); }
+  .with-image .intro-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); }
+  .intro-copy .lede { margin-top: 24px; }
+  .intro-image { width: 100%; max-width: 340px; justify-self: end; aspect-ratio: 5 / 6; }
+  .intro-image img { object-position: center 25%; }
+  @media (max-width: 760px) {
+    .intro-grid, .with-image .intro-grid { grid-template-columns: 1fr; gap: 24px; padding-block: 32px 40px; }
+    .intro-image { justify-self: start; max-width: 320px; }
+    h1, .long-title h1 { font-size: clamp(2.25rem, 7vw, 3.2rem); max-width: 24ch; }
   }
 </style>

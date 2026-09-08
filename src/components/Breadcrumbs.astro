@@ -1,0 +1,20 @@
+---
+import { site, offers } from '@data/site';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const labels: Record<string, string> = { '/apply': 'Book a free strategy call', '/contact': 'Contact', ...Object.fromEntries(site.nav.map(item => [item.href, item.label])) };
+const offer = offers.find(item => path === `/services/${item.slug}`);
+const items = [{ name: 'Home', path: '/' }, ...(offer ? [{ name: 'Services', path: '/services/' }] : []), { name: offer?.name || labels[path] || 'Page', path: `${path}/` }];
+const schema = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: new URL(item.path, Astro.site).href })) };
+---
+<nav aria-label="Breadcrumb" class="breadcrumbs">
+  <ol>{items.map((item, index) => <li>{index < items.length - 1 ? <a href={item.path}>{item.name}</a> : <span aria-current="page">{item.name}</span>}</li>)}</ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
+<style>
+  ol { display: flex; flex-wrap: wrap; gap: 8px 0; list-style: none; padding: 0; margin: 0; color: var(--color-muted); font-size: 0.78rem; line-height: 1.5; }
+  li { display: inline-flex; align-items: baseline; }
+  li + li::before { content: '/'; margin-inline: 12px; color: var(--color-line); }
+  a { text-decoration: underline; text-underline-offset: 4px; }
+  a:hover { color: var(--color-copper); }
+  [aria-current] { color: var(--color-ink); }
+</style>
