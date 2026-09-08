@@ -72,13 +72,15 @@ const { source = "apply" } = Astro.props;
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, submissionId }),
       });
-      const result = await response.json();
+      const result = await response.json().catch(() => { throw new Error('We could not confirm delivery. Please try again. Your entries have been kept.'); });
       if (!response.ok || !result.ok) throw new Error(result.message || 'Your inquiry could not be sent. Please try again.');
       note.textContent = result.message;
       form.reset();
       submissionId = crypto.randomUUID();
     } catch (error) {
-      note.textContent = error instanceof Error ? error.message : 'Your inquiry could not be sent. Please try again.';
+      note.textContent = error instanceof TypeError
+        ? 'We could not connect. Please check your connection and try again. Your entries have been kept.'
+        : error instanceof Error ? error.message : 'Your inquiry could not be sent. Please try again.';
     } finally {
       button.disabled = false;
       button.textContent = 'Send inquiry';

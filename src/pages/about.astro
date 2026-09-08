@@ -249,5 +249,9 @@ const credentials = [
   }
 
   @media (max-width: 850px) {
+    .belief-layout, .working-grid, .credentials-grid, .credential-row {
+      grid-template-columns: minmax(0, 1fr);
     }
+    .credential-row { gap: 8px; }
+  }
 </style>
