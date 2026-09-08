@@ -3,3 +3,7 @@ node_modules/
 dist/
 .astro-dev*.log
 qa-screenshots/
+
+.private/
+.env
+.env.*
