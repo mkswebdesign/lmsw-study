@@ -46,7 +46,7 @@ $config = is_file($private . '/emailit.json') ? json_decode(file_get_contents($p
 if (!is_array($config) || empty($config['api_key']) || !filter_var($config['recipient'] ?? '', FILTER_VALIDATE_EMAIL)) respond(503, 'Inquiries are temporarily unavailable. Please try again shortly.');
 // The fixed recipient and sender are never taken from browser input.
 $payload = ['from' => 'Katie Mayes Website <inquiries@katiemayes.com>', 'to' => $config['recipient'], 'reply_to' => $email,
-    'subject' => $source === 'apply' ? 'New strategy call inquiry â€” Katie Mayes' : 'New contact inquiry â€” Katie Mayes',
+    'subject' => $source === 'apply' ? 'New strategy call inquiry  -  Katie Mayes' : 'New contact inquiry  -  Katie Mayes',
     'text' => "Name: $name\nEmail: $email\nPage: /$source/\nRole: {$audiences[$audience]}\nInterest: {$interests[$interest]}\n\nMessage:\n$context",
     'tracking' => ['loads' => false, 'clicks' => false]];
 if (!empty($config['bcc'])) {
@@ -70,7 +70,7 @@ if (!$submission || !flock($submission, LOCK_EX)) respond(503, 'Please try again
 $previous = json_decode(stream_get_contents($submission), true);
 $digest = hash('sha256', $encoded);
 if ($previous && ($previous['digest'] ?? '') !== $digest) respond(409, 'This form has changed. Reload the page before sending again.');
-if (($previous['sent'] ?? false) === true) respond(200, 'Thank you â€” your inquiry has been sent. Katie will reply within 2 business days.', true);
+if (($previous['sent'] ?? false) === true) respond(200, 'Thank you  -  your inquiry has been sent. Katie will reply within 2 business days.', true);
 ftruncate($submission, 0); rewind($submission); fwrite($submission, json_encode(['digest' => $digest, 'sent' => false])); fflush($submission);
 $curl = curl_init('https://api.emailit.com/v2/emails');
 curl_setopt_array($curl, [CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_TIMEOUT => 20,
@@ -84,4 +84,4 @@ if ($status < 200 || $status >= 300 || empty($body['id'])) {
     respond(502, 'Your inquiry could not be confirmed. Please try again. Your entries have been kept.');
 }
 ftruncate($submission, 0); rewind($submission); fwrite($submission, json_encode(['digest' => $digest, 'sent' => true])); fflush($submission);
-respond(200, 'Thank you â€” your inquiry has been sent. Katie will reply within 2 business days.', true);
+respond(200, 'Thank you  -  your inquiry has been sent. Katie will reply within 2 business days.', true);
