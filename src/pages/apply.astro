@@ -1,4 +1,5 @@
 ---
+import InquiryForm from '@components/InquiryForm.astro';
 import PageIntro from '@components/PageIntro.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 ---
@@ -26,71 +27,10 @@ import BaseLayout from '@layouts/BaseLayout.astro';
         <strong>25+ years in brand strategy, messaging, and marketing leadership.</strong>
         <span>Agency, organizational, and teaching experience brought into a focused strategy conversation.</span>
       </div>
-      <form id="inquiry-form" class="inquiry-form surface-panel">
-        <div class="field-row">
-          <label>
-            Your name
-            <input name="name" autocomplete="name" placeholder="What should Katie call you?" required />
-          </label>
-          <label>
-            Email address
-            <input name="email" type="email" autocomplete="email" placeholder="Where should Katie reply?" required />
-          </label>
-        </div>
-        <label>
-          Which describes you best?
-          <select name="audience">
-            <option value="">Select your role</option>
-            <option value="founder">I run my own business</option>
-            <option value="solo">I'm an internal marketer</option>
-            <option value="other">I'm not sure where I fit yet</option>
-          </select>
-        </label>
-        <label>
-          What are you most interested in?
-          <select name="interest">
-            <option value="">Select support type</option>
-            <option value="session">A one-time session to get unstuck</option>
-            <option value="ongoing">Ongoing strategic support</option>
-            <option value="reset">A 30-day deep dive or reset</option>
-            <option value="notsure">I'm not sure yet</option>
-          </select>
-        </label>
-        <label>
-          What's going on?
-          <textarea
-            name="context"
-            rows="6"
-            placeholder="Tell Katie what you're working on, what feels stuck, or what you're hoping to figure out."
-            aria-describedby="context-help"
-            required
-          ></textarea>
-          <span class="field-help" id="context-help">
-            Example: "I'm struggling to position a new offer" or "I need help prioritizing my marketing efforts."
-          </span>
-        </label>
-        <button class="button submit-button" type="submit" disabled aria-describedby="form-note">Online inquiries temporarily unavailable</button>
-        <p class="support-links">
-          Questions first? <a href="/faq">Read the FAQ</a> or <a href="/services">review services</a>.
-        </p>
-        <p class="form-note" id="form-note" role="status" tabindex="-1">
-          Online inquiries are not available yet. Please check back soon. Nothing entered in this form is sent or saved.
-        </p>
-      </form>
+      <InquiryForm source="apply" />
     </div>
   </section>
 
-  <script>
-    const form = document.querySelector('#inquiry-form');
-    const note = document.querySelector('#form-note');
-
-    form?.addEventListener('submit', (event) => {
-      event.preventDefault();
-      // Keep submissions disabled until a real delivery endpoint is configured.
-      note?.removeAttribute('hidden');
-      note?.focus();
-    });
-  </script>
 </BaseLayout>
 
 <style>

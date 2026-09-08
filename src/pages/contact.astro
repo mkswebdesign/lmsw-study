@@ -1,50 +1,12 @@
 ---
-import CTASection from '@components/CTASection.astro';
+import InquiryForm from '@components/InquiryForm.astro';
 import PageIntro from '@components/PageIntro.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 ---
-
 <BaseLayout title="Contact | Katie Mayes">
-  <PageIntro
-    title="Contact Katie Mayes."
-    lede="The best first step is the short intake. It gives Katie the context needed to understand the decision, message, or direction that needs outside perspective."
-    ctaLabel="Book a free strategy call"
-    ctaHref="/apply"
-    secondaryLabel="Read FAQ"
-    secondaryHref="/faq"
-  />
-
-  <section class="section white" data-reveal="section">
-    <div class="container split">
-      <h2 class="display h2 eyeless">Use the intake when you are ready to share context.</h2>
-      <div class="rule-list" data-stagger>
-        <div class="rule-row">
-          <strong>What feels unclear?</strong>
-          <p class="muted eyeless">Share the message, priority, offer, or marketing decision that needs a better read.</p>
-        </div>
-        <div class="rule-row">
-          <strong>Which offer seems closest?</strong>
-          <p class="muted eyeless">Choose one if you know, or leave it open if the right fit needs to be sorted.</p>
-        </div>
-        <div class="rule-row">
-          <strong>What should happen next?</strong>
-          <p class="muted eyeless">The intake creates enough context to decide whether a conversation makes sense.</p>
-        </div>
-      </div>
-    </div>
+  <PageIntro title="Contact Katie Mayes." lede="Have a question about working together? Tell Katie a little about what you need. She will reply personally within 2 business days." showActions={false} />
+  <section class="section sage-wash">
+    <div class="container contact-form"><InquiryForm source="contact" /></div>
   </section>
-
-  <CTASection title="Start with the clearest version of the question." label="Book a free strategy call" href="/apply" />
 </BaseLayout>
-
-<style>
-  .rule-row {
-    grid-template-columns: minmax(220px, 0.45fr) minmax(0, 1fr);
-  }
-
-  @media (max-width: 720px) {
-    .rule-row {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
+<style>.contact-form { max-width: 860px; }</style>
