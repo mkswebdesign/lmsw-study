@@ -69,12 +69,12 @@ import BaseLayout from '@layouts/BaseLayout.astro';
             Example: "I'm struggling to position a new offer" or "I need help prioritizing my marketing efforts."
           </span>
         </label>
-        <button class="button submit-button" type="submit">Get My Free Strategy Call</button>
+        <button class="button submit-button" type="submit" disabled aria-describedby="form-note">Online inquiries temporarily unavailable</button>
         <p class="support-links">
           Questions first? <a href="/faq">Read the FAQ</a> or <a href="/services">review services</a>.
         </p>
-        <p class="form-note" id="form-note" role="status" tabindex="-1" hidden>
-          Thanks - this gives Katie the context she needs. Katie will reply personally within 2 business days.
+        <p class="form-note" id="form-note" role="status" tabindex="-1">
+          Online inquiries are not available yet. Please check back soon. Nothing entered in this form is sent or saved.
         </p>
       </form>
     </div>
@@ -86,7 +86,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 
     form?.addEventListener('submit', (event) => {
       event.preventDefault();
-      // Front-end confirmation only until the approved submission endpoint is connected.
+      // Keep submissions disabled until a real delivery endpoint is configured.
       note?.removeAttribute('hidden');
       note?.focus();
     });
