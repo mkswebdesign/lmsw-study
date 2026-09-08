@@ -7,7 +7,7 @@ import { audiences } from '@data/site';
   <div class="container">
     <h2 class="display h3 section-title">Who Katie works with</h2>
     <div class="grid-2 audience-grid" data-stagger>
-      {audiences.map((audience) => (
+      {[...audiences].reverse().map((audience) => (
         <a class={`audience card-link audience-${audience.visual}`} href={audience.href}>
           <div class="audience-image" aria-hidden="true">
             <img src={audience.image} alt="" loading="lazy" />

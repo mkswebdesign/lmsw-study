@@ -6,8 +6,8 @@ export const site = {
   nav: [
     { label: 'The Mayes Method', href: '/method' },
     { label: 'Services', href: '/services' },
-    { label: 'Founders', href: '/for-founders' },
     { label: 'Solo Marketers', href: '/for-solo-marketers' },
+    { label: 'Founders', href: '/for-founders' },
     { label: 'About', href: '/about' },
     { label: 'FAQ', href: '/faq' },
   ],
